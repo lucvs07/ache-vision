@@ -1,75 +1,114 @@
 @import "tailwindcss";
 
-:root {
-    font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
-    line-height: 1.5;
-    font-weight: 400;
+@theme {
+    --color-*: initial;
+    --color-white-50: oklch(0.99 0.005 100);
+    --color-white-100: oklch(0.98 0.01 100);
+    --color-white-200: oklch(0.96 0.015 100);
+    --color-white-300: oklch(0.93 0.02 100);
+    --color-white-400: oklch(0.90 0.025 100);
+    --color-white-500: oklch(0.87 0.03 100);
+    --color-white-600: oklch(0.82 0.035 100);
+    --color-white-700: oklch(0.77 0.04 100);
+    --color-white-800: oklch(0.72 0.045 100);
+    --color-white-900: oklch(0.67 0.05 100);
+    --color-white-950: oklch(0.60 0.055 100);
 
-    color-scheme: light dark;
-    color: rgba(255, 255, 255, 0.87);
-    background-color: #242424;
+    --color-black-50: oklch(0.18 0.01 270);
+    --color-black-100: oklch(0.16 0.015 270);
+    --color-black-200: oklch(0.14 0.02 270);
+    --color-black-300: oklch(0.12 0.025 270);
+    --color-black-400: oklch(0.10 0.03 270);
+    --color-black-500: oklch(0.08 0.035 270);
+    --color-black-600: oklch(0.06 0.04 270);
+    --color-black-700: oklch(0.04 0.045 270);
+    --color-black-800: oklch(0.03 0.05 270);
+    --color-black-900: oklch(0.02 0.055 270);
+    --color-black-950: oklch(0.01 0.06 270);
 
-    font-synthesis: none;
-    text-rendering: optimizeLegibility;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
-}
+    --color-sunset-50: oklch(0.98 0.04 80);
+    --color-sunset-100: oklch(0.96 0.05 80);
+    --color-sunset-200: oklch(0.93 0.06 80);
+    --color-sunset-300: oklch(0.90 0.07 80);
+    --color-sunset-400: oklch(0.87 0.08 80);
+    --color-sunset-500: oklch(0.84 0.09 80);
+    --color-sunset-600: oklch(0.80 0.10 80);
+    --color-sunset-700: oklch(0.76 0.11 80);
+    --color-sunset-800: oklch(0.72 0.12 80);
+    --color-sunset-900: oklch(0.68 0.13 80);
+    --color-sunset-950: oklch(0.64 0.14 80);
 
-a {
-    font-weight: 500;
-    color: #646cff;
-    text-decoration: inherit;
-}
+    --color-orange-50: oklch(0.97 0.07 75);
+    --color-orange-100: oklch(0.94 0.09 75);
+    --color-orange-200: oklch(0.91 0.11 75);
+    --color-orange-300: oklch(0.88 0.13 75);
+    --color-orange-400: oklch(0.85 0.15 75);
+    --color-orange-500: oklch(0.82 0.17 75);
+    --color-orange-600: oklch(0.78 0.19 75);
+    --color-orange-700: oklch(0.74 0.21 75);
+    --color-orange-800: oklch(0.70 0.23 75);
+    --color-orange-900: oklch(0.66 0.25 75);
+    --color-orange-950: oklch(0.62 0.27 75);
 
-a:hover {
-    color: #535bf2;
-}
+    --color-peach-50: oklch(0.98 0.04 60);
+    --color-peach-100: oklch(0.96 0.06 60);
+    --color-peach-200: oklch(0.93 0.08 60);
+    --color-peach-300: oklch(0.90 0.10 60);
+    --color-peach-400: oklch(0.87 0.12 60);
+    --color-peach-500: oklch(0.84 0.14 60);
+    --color-peach-600: oklch(0.80 0.16 60);
+    --color-peach-700: oklch(0.76 0.18 60);
+    --color-peach-800: oklch(0.72 0.20 60);
+    --color-peach-900: oklch(0.68 0.22 60);
+    --color-peach-950: oklch(0.64 0.24 60);
 
-body {
-    margin: 0;
-    display: flex;
-    place-items: center;
-    min-width: 320px;
-    min-height: 100vh;
-}
+    --color-pumpkin-50: oklch(0.97 0.08 55);
+    --color-pumpkin-100: oklch(0.94 0.10 55);
+    --color-pumpkin-200: oklch(0.91 0.12 55);
+    --color-pumpkin-300: oklch(0.88 0.14 55);
+    --color-pumpkin-400: oklch(0.85 0.16 55);
+    --color-pumpkin-500: oklch(0.82 0.18 55);
+    --color-pumpkin-600: oklch(0.78 0.20 55);
+    --color-pumpkin-700: oklch(0.74 0.22 55);
+    --color-pumpkin-800: oklch(0.70 0.24 55);
+    --color-pumpkin-900: oklch(0.66 0.26 55);
+    --color-pumpkin-950: oklch(0.62 0.28 55);
 
-h1 {
-    font-size: 3.2em;
-    line-height: 1.1;
-}
+    --color-melon-50: oklch(0.98 0.03 20);
+    --color-melon-100: oklch(0.96 0.05 20);
+    --color-melon-200: oklch(0.93 0.07 20);
+    --color-melon-300: oklch(0.90 0.09 20);
+    --color-melon-400: oklch(0.87 0.11 20);
+    --color-melon-500: oklch(0.84 0.13 20);
+    --color-melon-600: oklch(0.80 0.15 20);
+    --color-melon-700: oklch(0.76 0.17 20);
+    --color-melon-800: oklch(0.72 0.19 20);
+    --color-melon-900: oklch(0.68 0.21 20);
+    --color-melon-950: oklch(0.64 0.23 20);
 
-button {
-    border-radius: 8px;
-    border: 1px solid transparent;
-    padding: 0.6em 1.2em;
-    font-size: 1em;
-    font-weight: 500;
-    font-family: inherit;
-    background-color: #1a1a1a;
-    cursor: pointer;
-    transition: border-color 0.25s;
-}
+    --color-pink-50: oklch(0.97 0.06 25);
+    --color-pink-100: oklch(0.94 0.08 25);
+    --color-pink-200: oklch(0.91 0.10 25);
+    --color-pink-300: oklch(0.88 0.12 25);
+    --color-pink-400: oklch(0.85 0.14 25);
+    --color-pink-500: oklch(0.82 0.16 25);
+    --color-pink-600: oklch(0.78 0.18 25);
+    --color-pink-700: oklch(0.74 0.20 25);
+    --color-pink-800: oklch(0.70 0.22 25);
+    --color-pink-900: oklch(0.66 0.24 25);
+    --color-pink-950: oklch(0.62 0.26 25);
 
-button:hover {
-    border-color: #646cff;
-}
-
-button:focus,
-button:focus-visible {
-    outline: 4px auto -webkit-focus-ring-color;
-}
-
-@media (prefers-color-scheme: light) {
-    :root {
-        color: #213547;
-        background-color: #ffffff;
-    }
-
-    a:hover {
-        color: #747bff;
-    }
-
-    button {
-        background-color: #f9f9f9;
-    }
+    --color-crimson-50: oklch(0.97 0.08 20);
+    --color-crimson-100: oklch(0.94 0.10 20);
+    --color-crimson-200: oklch(0.91 0.12 20);
+    --color-crimson-300: oklch(0.88 0.14 20);
+    --color-crimson-400: oklch(0.85 0.16 20);
+    --color-crimson-500: oklch(0.82 0.18 20);
+    --color-crimson-600: oklch(0.78 0.20 20);
+    --color-crimson-700: oklch(0.74 0.22 20);
+    --color-crimson-800: oklch(0.70 0.24 20);
+    --color-crimson-900: oklch(0.66 0.26 20);
+    --color-crimson-950: oklch(0.62 0.28 20);
+    
+    --font-krona: Krona One, sans-serif;
 }
