@@ -1,9 +1,10 @@
 import "./App.css";
+import Sidebar from "./components/shared/Sidebar/Sidebar";
 
 function App() {
   return (
     <>
-      <h1 className="font-krona text-crimson">Teste</h1>
+      <Sidebar></Sidebar>
     </>
   );
 }

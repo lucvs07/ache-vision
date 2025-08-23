@@ -109,6 +109,21 @@
     --color-crimson-800: oklch(0.70 0.24 20);
     --color-crimson-900: oklch(0.66 0.26 20);
     --color-crimson-950: oklch(0.62 0.28 20);
-    
+
     --font-krona: Krona One, sans-serif;
+
+    --animate-scale: scale 1s ease-in-out;
+    @keyframes scale {
+        0%,
+        100% {
+            transform: scale(1);
+        }
+        50% {
+            transform: scale(1.2);
+        }
+    }
+}   
+
+:root {
+    @apply bg-white-100;
 }

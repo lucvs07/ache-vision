@@ -1,0 +1,18 @@
+@reference "../../../index.css";
+
+
+.sidebar-container {
+    @apply fixed top-0 w-screen flex flex-col bg-white-50 flex flex-row gap-4 p-4;
+}
+
+.sidebar-icon {
+    @apply flex flex-row items-center gap-1 cursor-pointer;
+}
+
+.icon {
+    @apply text-crimson-800;
+}
+
+.icon:hover {
+    @apply animate-scale;
+}
