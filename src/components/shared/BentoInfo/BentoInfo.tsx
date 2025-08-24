@@ -21,11 +21,11 @@ const BentoInfo: React.FC<BentoInfoProps> = ({
     <div className="bento-box">
       <div className="bento-header">
         <span>{header}</span>
-        <Icon {...iconProps} size={32}/>
+        <Icon {...iconProps}/>
       </div>
       <div className="bento-content">
         <span>{infoValue}</span>
-        <span>{percentageValue}</span>
+        <span>{percentageValue}%</span>
       </div>
     </div>
   );

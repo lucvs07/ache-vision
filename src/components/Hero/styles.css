@@ -1,0 +1,8 @@
+@import "../../index.css";
+
+.section-hero {
+  @apply gap-2 p-4 bg-white-50 shadow-sm rounded-sm mx-4 mb-4;
+}
+.section-header {
+  @apply flex flex-row items-center justify-between p-2;
+}
