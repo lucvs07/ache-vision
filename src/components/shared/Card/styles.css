@@ -1,0 +1,33 @@
+@reference "../../../index.css";
+
+.card {
+    @apply bg-white-50 shadow-md rounded-md min-w-xs;
+}
+
+.card-header {
+    @apply bg-crimson-800 rounded-t-md flex flex-row justify-between items-center p-4 shadow-sm;
+}
+
+.card-header span {
+    @apply text-white-50 font-krona text-xs;
+}
+
+.card-content {
+    @apply flex flex-col items-center w-full gap-2 p-8;
+}
+
+.card-description {
+    @apply flex flex-row gap-1.5;
+}
+
+.card-footer {
+    @apply bg-crimson-800 rounded-b-md flex flex-row justify-center items-center p-4 shadow-sm;
+}
+
+.icon-info {
+    @apply text-white-50 cursor-pointer;
+}
+
+.icon-info:hover {
+    @apply animate-scale;
+}
