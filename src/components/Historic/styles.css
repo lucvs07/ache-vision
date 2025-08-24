@@ -1,0 +1,11 @@
+@reference "../../index.css";
+
+.section-historic {
+    @apply gap-2 p-4 bg-white-50 shadow-sm rounded-sm;
+}
+.section-header{
+    @apply flex flex-row items-center justify-between p-2
+}
+.cards-container{
+    @apply flex justify-start items-center gap-4;
+}
