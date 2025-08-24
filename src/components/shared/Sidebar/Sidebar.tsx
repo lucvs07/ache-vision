@@ -10,7 +10,7 @@ const sidebarItems = [
 
 const Sidebar: React.FC = () => {
   return (
-    <aside className="sidebar-container">
+    <aside className="sidebar-container mb-4">
         {sidebarItems.map((item) => (
             <SidebarIcon key={item.text} icon={item.icon} text={item.text} />
         ))}
