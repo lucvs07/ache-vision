@@ -2,7 +2,7 @@
 
 
 .sidebar-container {
-    @apply fixed top-0 w-screen flex flex-col bg-white-50 flex flex-row gap-4 p-4;
+    @apply fixed top-0 w-screen bg-white-50 flex flex-row gap-4 p-4;
 }
 
 .sidebar-icon {
