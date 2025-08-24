@@ -7,7 +7,7 @@
     @apply flex flex-row justify-between items-center;
 }
 .bento-header span {
-    @apply font-krona
+    @apply font-krona;
 }
 
 .bento-content {
@@ -19,5 +19,5 @@
 }
 
 .bento-content span:last-child {
-    @apply p-2 bg-white-300 font-bold rounded-sm text-sm;
+    @apply px-4 py-2 bg-white-200 font-bold rounded-sm text-sm;
 }

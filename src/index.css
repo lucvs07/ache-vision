@@ -147,6 +147,8 @@
     --color-danger-950: oklch(0.62 0.27 30);
 
     --font-krona: Krona One, sans-serif;
+    --font-outfit: Outfit, sans-serif;
+    --font-redhat: Red Hat Display, sans-serif;
 
     --animate-scale: scale 1.2s ease-in;
     @keyframes scale {
