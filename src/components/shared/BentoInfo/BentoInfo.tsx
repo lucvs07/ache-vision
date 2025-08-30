@@ -8,6 +8,8 @@ type BentoInfoProps = {
   percentageValue: number;
   icon: React.ElementType<IconProps>;
   iconProps?: IconProps;
+  colSpan: string;
+  rowSpan: string;
 };
 
 const BentoInfo: React.FC<BentoInfoProps> = ({
@@ -16,12 +18,14 @@ const BentoInfo: React.FC<BentoInfoProps> = ({
   percentageValue,
   icon: Icon,
   iconProps,
+  colSpan,
+  rowSpan,
 }) => {
   return (
-    <div className="bento-box">
+    <div className={`bento-box col-span-${colSpan} row-span-${rowSpan}`}>
       <div className="bento-header">
         <span>{header}</span>
-        <Icon {...iconProps}/>
+        <Icon {...iconProps} />
       </div>
       <div className="bento-content">
         <span>{infoValue}</span>

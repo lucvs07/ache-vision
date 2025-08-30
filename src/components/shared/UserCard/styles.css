@@ -1,0 +1,25 @@
+@reference "../../../index.css";
+
+.bento-box {
+    @apply flex flex-col p-4 bg-white-50 shadow-sm rounded-md;
+}
+
+.bento-header {
+    @apply flex flex-row justify-between items-center;
+}
+
+.bento-header span {
+    @apply font-krona;
+}
+
+.bento-content {
+    @apply flex flex-row gap-4 items-center;
+}
+
+.bento-content span:first-child {
+    @apply font-krona text-2xl;
+}
+
+.bento-content span:last-child {
+    @apply px-4 py-2 bg-white-200 font-bold rounded-sm text-sm;
+}

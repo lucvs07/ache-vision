@@ -6,3 +6,6 @@
 .section-header {
   @apply flex flex-row items-center justify-between p-2;
 }
+.bento-grid{
+    @apply grid grid-cols-3 grid-rows-3 gap-4;
+}

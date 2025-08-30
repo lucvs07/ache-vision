@@ -1,13 +1,20 @@
 import React from "react";
 import "./styles.css";
-import { ArrowCircleRightIcon, ChartScatterIcon, type IconProps} from "@phosphor-icons/react";
+import { ArrowCircleRightIcon, ChartScatterIcon, UserIcon, type IconProps} from "@phosphor-icons/react";
 import BentoInfo from "../shared/BentoInfo/BentoInfo";
+import UserInfo from "../shared/UserCard/UserCard";
 
 const BentoInfoProps = {
   header: "Número de Análises",
   infoValue: 40,
   percentageValue: 50,
   icon: ChartScatterIcon,
+  iconProps: { size: 48, weight: "fill" } as IconProps,
+};
+
+const UserInfoProps = {
+  header: "Lucas",
+  icon: UserIcon,
   iconProps: { size: 48, weight: "fill" } as IconProps,
 };
 
@@ -22,9 +29,12 @@ const Hero: React.FC = () => {
           className="text-orange-700 cursor-pointer"
         />
       </div>
-    <div className="bento-grid">
-      <BentoInfo {...BentoInfoProps} />
-    </div>
+      <div className="bento-grid">
+        <UserInfo {...UserInfoProps} colSpan={1} rowSpan={2} />
+        <BentoInfo {...BentoInfoProps} colSpan={"1"} rowSpan={"1"} />
+        <BentoInfo {...BentoInfoProps} colSpan={"1"} rowSpan={"1"} />
+        <BentoInfo {...BentoInfoProps} colSpan={"2"} rowSpan={"1"} />
+      </div>
     </section>
   );
 };
