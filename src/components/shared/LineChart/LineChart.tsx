@@ -13,7 +13,7 @@ export default function MockLineChart() {
         series={[
           {
             data: [2, 5.5, 2, 8.5, 1.5, 5],
-            color: "oklch(0.62 0.28 20)", // Usa a cor crimson definida no index.css
+            color: "oklch(0.62 0.28 20)",
           },
         ]}
         height={350}
