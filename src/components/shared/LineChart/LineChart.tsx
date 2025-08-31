@@ -1,34 +1,23 @@
 import * as React from "react";
 import { LineChart } from "@mui/x-charts/LineChart";
-import { Card, CardContent, Typography } from "@mui/material";
-
-const mockData = [
-  { x: 1, y: 20 },
-  { x: 2, y: 35 },
-  { x: 3, y: 30 },
-  { x: 4, y: 45 },
-  { x: 5, y: 40 },
-];
+import { Typography } from "@mui/material";
 
 export default function MockLineChart() {
   return (
-    <Card>
-      <CardContent>
-        <Typography variant="h6" gutterBottom>
-          Mock Line Chart
-        </Typography>
-        <LineChart
-          xAxis={[{ dataKey: "x", label: "X Axis" }]}
-          series={[
-            {
-              data: mockData.map((point) => point.y),
-              label: "Sample Series",
-            },
-          ]}
-          width={500}
-          height={300}
-        />
-      </CardContent>
-    </Card>
+    <div className="w-full h-full bg-transparent shadow-none rounded-lg flex flex-col min-w-0 min-h-0">
+      <Typography variant="h6" gutterBottom>
+        Mock Line Chart
+      </Typography>
+      <LineChart
+        xAxis={[{ data: [1, 2, 3, 5, 8, 10] }]}
+        series={[
+          {
+            data: [2, 5.5, 2, 8.5, 1.5, 5],
+            color: "oklch(0.62 0.28 20)", // Usa a cor crimson definida no index.css
+          },
+        ]}
+        height={350}
+      />
+    </div>
   );
 }

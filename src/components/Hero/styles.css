@@ -1,11 +1,21 @@
 @import "../../index.css";
 
 .section-hero {
-  @apply gap-2 p-4 bg-white-50 shadow-sm rounded-sm mx-4 mb-4;
+    @apply gap-2 p-4 bg-white-50 shadow-sm rounded-sm mx-4 mb-4;
 }
+
 .section-header {
-  @apply flex flex-row items-center justify-between p-2;
+    @apply flex flex-row items-center justify-between p-2;
 }
-.bento-grid{
-    @apply grid grid-cols-3 grid-rows-3 gap-4;
+
+.bento-grid {
+    @apply grid grid-cols-3 grid-rows-3 gap-4 w-full h-full;
+}
+
+.usercard-area {
+    @apply col-start-1 col-end-2 row-start-1 row-end-3 w-full h-full min-h-0 min-w-0 flex flex-col;
+}
+
+.chart-area {
+    @apply col-start-2 col-end-4 row-start-2 row-end-4 w-full h-full bg-[#fffdfa] rounded-lg shadow p-6 flex flex-col min-w-0 min-h-0;
 }

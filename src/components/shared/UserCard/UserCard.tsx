@@ -6,18 +6,16 @@ type UserInfoProps = {
   header: string;
   icon: React.ElementType<IconProps>;
   iconProps?: IconProps;
-  colSpan: number;
-  rowSpan: number;
 };
 
-const UserInfo: React.FC<UserInfoProps> = ({
+const UserInfo: React.FC<UserInfoProps & { className?: string }> = ({
   header,
   icon: Icon,
   iconProps,
-  colSpan,
+  className = "",
 }) => {
   return (
-    <div className={`bento-box row-span-3 col-span-${colSpan} `}>
+    <div className={`bento-box ${className}`}>
       <div className="bento-header">
         <span>{header}</span>
         <Icon {...iconProps} />
