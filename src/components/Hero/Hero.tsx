@@ -3,6 +3,7 @@ import "./styles.css";
 import { ArrowCircleRightIcon, ChartScatterIcon, UserIcon, type IconProps} from "@phosphor-icons/react";
 import BentoInfo from "../shared/BentoInfo/BentoInfo";
 import UserInfo from "../shared/UserCard/UserCard";
+import MockLineChart from "../shared/LineChart/LineChart";
 
 const BentoInfoProps = {
   header: "Número de Análises",
@@ -33,7 +34,7 @@ const Hero: React.FC = () => {
         <UserInfo {...UserInfoProps} colSpan={1} rowSpan={2} />
         <BentoInfo {...BentoInfoProps} colSpan={"1"} rowSpan={"1"} />
         <BentoInfo {...BentoInfoProps} colSpan={"1"} rowSpan={"1"} />
-        <BentoInfo {...BentoInfoProps} colSpan={"2"} rowSpan={"1"} />
+        <MockLineChart />
       </div>
     </section>
   );
