@@ -6,7 +6,7 @@ export default function MockLineChart() {
   return (
     <div className="w-full h-full bg-transparent shadow-none rounded-lg flex flex-col min-w-0 min-h-0">
       <Typography variant="h6" gutterBottom>
-        Mock Line Chart
+        Gráfico
       </Typography>
       <LineChart
         xAxis={[{ data: [1, 2, 3, 5, 8, 10] }]}

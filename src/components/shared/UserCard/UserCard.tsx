@@ -15,7 +15,7 @@ const UserInfo: React.FC<UserInfoProps & { className?: string }> = ({
   className = "",
 }) => {
   return (
-    <div className={`bento-box ${className}`}>
+    <div className={`bento-user ${className}`}>
       <div className="bento-header">
         <span>{header}</span>
         <Icon {...iconProps} />

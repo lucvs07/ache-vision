@@ -1,13 +1,14 @@
 @reference "../../../index.css";
 
 .bento-box {
-    @apply flex flex-col p-4 bg-white-50 shadow-sm rounded-md;
+    @apply flex flex-col p-8 bg-white-50 shadow-sm rounded-md justify-center gap-4;
 }
 .bento-header {
     @apply flex flex-row justify-between items-center;
 }
+
 .bento-header span {
-    @apply font-krona;
+    @apply font-outfit text-2xl font-bold;
 }
 
 .bento-content {
