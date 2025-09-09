@@ -2,7 +2,7 @@ import React from "react";
 import "./styles.css";
 import type { Product } from "../../../types/i-product";
 import {
-    InfoIcon,
+  InfoIcon,
   PackageIcon,
   SealCheckIcon,
   SealQuestionIcon,
@@ -19,14 +19,26 @@ const themeStatus = {
   rejeitado: "text-danger-800",
 };
 
-const Card: React.FC<Product> = ({ veracidade, tipo, ...rest }) => {
+interface CardProps extends Product {
+  onClick?: () => void;
+}
+
+const Card: React.FC<CardProps> = ({ veracidade, tipo, onClick, ...rest }) => {
   const IconComponent =
     sealStatus[rest.status as keyof typeof sealStatus] || SealQuestionIcon;
   return (
     <div className="card">
       <div className="card-header">
-        <PackageIcon size={32} weight="fill" className="text-white-50"></PackageIcon>
-        <span>{rest.data instanceof Date ? rest.data.toLocaleDateString() : rest.data}</span>
+        <PackageIcon
+          size={32}
+          weight="fill"
+          className="text-white-50"
+        ></PackageIcon>
+        <span>
+          {rest.data instanceof Date
+            ? rest.data.toLocaleDateString()
+            : rest.data}
+        </span>
       </div>
       <div className="card-content">
         <IconComponent
@@ -43,7 +55,13 @@ const Card: React.FC<Product> = ({ veracidade, tipo, ...rest }) => {
         </p>
       </div>
       <div className="card-footer">
-        <InfoIcon size={32} weight="fill" className="icon-info"></InfoIcon>
+        <InfoIcon
+          size={32}
+          weight="fill"
+          className="icon-info"
+          onClick={onClick}
+          style={{ cursor: "pointer" }}
+        />
       </div>
     </div>
   );
