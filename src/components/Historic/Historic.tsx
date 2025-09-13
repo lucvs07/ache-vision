@@ -6,6 +6,7 @@ import Card from "../shared/Card/Card";
 import { ArrowCircleRightIcon } from "@phosphor-icons/react";
 import type { Product } from "../../types/i-product";
 import { ApiService } from "../../services/api.service";
+import { ErrorBoundary } from "react-error-boundary";
 
 const Historic: React.FC = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -53,22 +54,21 @@ const Historic: React.FC = () => {
         ))}
       </div>
       {isModalOpen && selectedCard && (
-        <Modal
-          onClose={handleCloseModal}
-          open={isModalOpen}
-          id={selectedCard.id}
-          data={selectedCard.data}
-          tipo={selectedCard.tipo}
-          aprovado={selectedCard.aprovado}
-          status={selectedCard.status}
-          veracidade={selectedCard.veracidade}
-          imgLabel={selectedCard.imgLabel}
-          imgNormal={selectedCard.imgNormal}
-        >
-          {/* Renderize aqui o conteúdo do modal, usando selectedCard se necessário */}
-          <div>Detalhes do Card</div>
-          <pre>{JSON.stringify(selectedCard, null, 2)}</pre>
-        </Modal>
+        <ErrorBoundary fallback={<div>Something went wrong</div>}>
+          <Modal
+            onClose={handleCloseModal}
+            open={isModalOpen}
+            id={selectedCard.id}
+            data={selectedCard.data}
+            tipo={selectedCard.tipo}
+            aprovado={selectedCard.aprovado}
+            status={selectedCard.status}
+            veracidade={selectedCard.veracidade}
+            imgLabel={selectedCard.imgLabel}
+            imgNormal={selectedCard.imgNormal}
+          >
+          </Modal>
+        </ErrorBoundary>
       )}
     </section>
   );

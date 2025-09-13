@@ -46,4 +46,17 @@ export class ApiService {
     if (!response.ok) throw new Error("Erro ao deletar produto");
   }
 
+  static formatDateToBR(date: Date): string {
+    const dateObj = date instanceof Date ? date : new Date(date);
+    return dateObj.toLocaleString("pt-BR", {
+      day: "2-digit",
+      month: "2-digit",
+      year: "numeric",
+      hour: "2-digit",
+      minute: "2-digit",
+      second: "2-digit",
+      hour12: false,
+      timeZone: "UTC",
+    });
+  }
 }

@@ -6,6 +6,11 @@ import {
   SealQuestionIcon,
   SealWarningIcon,
 } from "@phosphor-icons/react";
+import {
+  ReactCompareSlider,
+  ReactCompareSliderImage,
+} from "react-compare-slider";
+import { ApiService } from "../../../services/api.service";
 
 interface ModalProps extends Product {
   open?: boolean;
@@ -39,17 +44,32 @@ const Modal: React.FC<ModalProps> = ({
         className="bg-white-50 p-6 rounded-md shadow-lg min-w-[300px]"
         onClick={(e) => e.stopPropagation()}
       >
-        <IconComponent
-          size={56}
-          weight="fill"
-          className={mapStatus[props.status as keyof typeof mapStatus].theme}
+        <div className="header-modal">
+          <IconComponent
+            size={56}
+            weight="fill"
+            className={mapStatus[props.status as keyof typeof mapStatus].theme}
+          />
+          <span>{props.tipo}</span>
+          <span>
+            {ApiService.formatDateToBR(props.data)}
+          </span>
+        </div>
+
+        <ReactCompareSlider
+          itemOne={
+            <ReactCompareSliderImage
+              src={props.imgLabel}
+              alt={props.tipo + "Com Label"}
+            />
+          }
+          itemTwo={
+            <ReactCompareSliderImage
+              src={props.imgNormal}
+              alt={props.tipo + "Sem Label"}
+            />
+          }
         />
-        <button
-          className="mt-4 px-4 py-2 bg-sunset-500 text-white rounded modal-close"
-          onClick={onClose}
-        >
-          Fechar
-        </button>
         {children}
       </div>
     </div>
