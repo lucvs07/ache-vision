@@ -1,7 +1,7 @@
 // axios removido, usando fetch API nativa
 import { type Product } from "../types/i-product";
 
-const API_BASE_URL = "https://achecourtroom-backend.onrender.com/analise/";
+const API_BASE_URL = "https://achecourtroom-backend.onrender.com/analise";
 
 export class ApiService {
   static async getProducts(): Promise<Product[]> {
@@ -39,10 +39,11 @@ export class ApiService {
     return response.json();
   }
 
-static async deleteProduct(id: number): Promise<void> {
+  static async deleteProduct(id: number): Promise<void> {
     const response = await fetch(`${API_BASE_URL}/delete/${id}`, {
-        method: "DELETE",
+      method: "DELETE",
     });
     if (!response.ok) throw new Error("Erro ao deletar produto");
-}
+  }
+
 }

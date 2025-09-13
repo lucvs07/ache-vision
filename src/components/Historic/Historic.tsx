@@ -1,16 +1,29 @@
 import React, { useState } from "react";
+import { useEffect } from "react";
 import "./styles.css";
-import { mockProducts } from "../../types/mockProducts";
 import Modal from "../shared/Modal/Modal";
 import Card from "../shared/Card/Card";
 import { ArrowCircleRightIcon } from "@phosphor-icons/react";
 import type { Product } from "../../types/i-product";
+import { ApiService } from "../../services/api.service";
 
 const Historic: React.FC = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedCard, setSelectedCard] = useState<Product | null>(null);
+  const [productsList, setProducts] = useState<Product[]>();
 
-  const handleCardClick = (cardData : Product) => {
+  useEffect(() => {
+    ApiService.getProducts()
+      .then((products: Product[]) => {
+        console.log("Produtos retornados da API:", products);
+        setProducts(products);
+      })
+      .catch((err) => {
+        console.error("Erro ao buscar produtos:", err);
+      });
+  }, []);
+
+  const handleCardClick = (cardData: Product) => {
     setSelectedCard(cardData);
     setIsModalOpen(true);
   };
@@ -31,7 +44,7 @@ const Historic: React.FC = () => {
         />
       </div>
       <div className="cards-container">
-        {mockProducts.map((product) => (
+        {(productsList ?? []).map((product) => (
           <Card
             key={product.id}
             {...product}
