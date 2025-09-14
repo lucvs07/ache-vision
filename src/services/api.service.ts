@@ -31,7 +31,7 @@ export class ApiService {
     product: Partial<Product>
   ): Promise<Product> {
     const response = await fetch(`${API_BASE_URL}/update/${id}`, {
-      method: "PUT",
+      method: "PATCH",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(product),
     });

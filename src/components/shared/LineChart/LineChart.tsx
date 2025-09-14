@@ -1,4 +1,4 @@
-import * as React from "react";
+// React import não necessário com JSX automatic runtime
 import { LineChart } from "@mui/x-charts/LineChart";
 import { Typography } from "@mui/material";
 
