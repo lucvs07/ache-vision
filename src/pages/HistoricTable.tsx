@@ -10,7 +10,7 @@ import {
   Search,
   Calendar,
   Filter,
-  Download
+  Download,
 } from "lucide-react";
 
 const HistoricTable: React.FC = () => {
@@ -23,20 +23,25 @@ const HistoricTable: React.FC = () => {
   const itemsPerPage = 10;
 
   useEffect(() => {
-    ApiService.getProducts()
-      .then(setProducts)
-      .catch(console.error);
+    ApiService.getProducts().then(setProducts).catch(console.error);
   }, []);
 
   const filtered = products.filter((p) => {
-    const tipoMatch = filterTipo ? p.tipo.toLowerCase().includes(filterTipo.toLowerCase()) : true;
-    const dataMatch = filterData ? new Date(p.data).toISOString().split('T')[0] === filterData : true;
+    const tipoMatch = filterTipo
+      ? p.tipo.toLowerCase().includes(filterTipo.toLowerCase())
+      : true;
+    const dataMatch = filterData
+      ? new Date(p.data).toISOString().split("T")[0] === filterData
+      : true;
     return tipoMatch && dataMatch;
   });
 
   const totalPages = Math.ceil(filtered.length / itemsPerPage);
   const startIndex = (currentPage - 1) * itemsPerPage;
-  const paginatedProducts = filtered.slice(startIndex, startIndex + itemsPerPage);
+  const paginatedProducts = filtered.slice(
+    startIndex,
+    startIndex + itemsPerPage
+  );
 
   const handleViewDetails = (product: Product) => {
     setSelectedProduct(product);
@@ -45,8 +50,15 @@ const HistoricTable: React.FC = () => {
 
   const handleApprove = async (product: Product) => {
     try {
-      await ApiService.updateProduct(product.id, { ...product, status: "aprovado" });
-      setProducts(prev => prev.map(p => p.id === product.id ? { ...p, status: "aprovado" } : p));
+      await ApiService.updateProduct(product.id, {
+        ...product,
+        status: "aprovado",
+      });
+      setProducts((prev) =>
+        prev.map((p) =>
+          p.id === product.id ? { ...p, status: "aprovado" } : p
+        )
+      );
     } catch (error) {
       console.error("Erro ao aprovar:", error);
     }
@@ -54,8 +66,15 @@ const HistoricTable: React.FC = () => {
 
   const handleReject = async (product: Product) => {
     try {
-      await ApiService.updateProduct(product.id, { ...product, status: "rejeitado" });
-      setProducts(prev => prev.map(p => p.id === product.id ? { ...p, status: "rejeitado" } : p));
+      await ApiService.updateProduct(product.id, {
+        ...product,
+        status: "rejeitado",
+      });
+      setProducts((prev) =>
+        prev.map((p) =>
+          p.id === product.id ? { ...p, status: "rejeitado" } : p
+        )
+      );
     } catch (error) {
       console.error("Erro ao rejeitar:", error);
     }
@@ -65,7 +84,7 @@ const HistoricTable: React.FC = () => {
     if (window.confirm("Tem certeza que deseja excluir este item?")) {
       try {
         await ApiService.deleteProduct(product.id);
-        setProducts(prev => prev.filter(p => p.id !== product.id));
+        setProducts((prev) => prev.filter((p) => p.id !== product.id));
       } catch (error) {
         console.error("Erro ao deletar:", error);
       }
@@ -73,35 +92,40 @@ const HistoricTable: React.FC = () => {
   };
 
   const getStatusBadge = (status: string) => {
-    const statusMap: Record<string, { bg: string; text: string; label: string; border: string }> = {
-      aprovado: { 
-        bg: "bg-success-100", 
-        text: "text-success-800", 
-        label: "Aprovado", 
-        border: "border-success-300" 
+    const statusMap: Record<
+      string,
+      { bg: string; text: string; label: string; border: string }
+    > = {
+      aprovado: {
+        bg: "bg-success-100",
+        text: "text-success-800",
+        label: "Aprovado",
+        border: "border-success-300",
       },
-      rejeitado: { 
-        bg: "bg-danger-100", 
-        text: "text-danger-800", 
-        label: "Rejeitado", 
-        border: "border-danger-300" 
+      rejeitado: {
+        bg: "bg-danger-100",
+        text: "text-danger-800",
+        label: "Rejeitado",
+        border: "border-danger-300",
       },
-      verificar: { 
-        bg: "bg-warning-100", 
-        text: "text-warning-800", 
-        label: "Verificar", 
-        border: "border-warning-300" 
+      verificar: {
+        bg: "bg-warning-100",
+        text: "text-warning-800",
+        label: "Verificar",
+        border: "border-warning-300",
       },
-      pendente: { 
-        bg: "bg-orange-100", 
-        text: "text-orange-800", 
-        label: "Pendente", 
-        border: "border-orange-300" 
+      pendente: {
+        bg: "bg-orange-100",
+        text: "text-orange-800",
+        label: "Pendente",
+        border: "border-orange-300",
       },
     };
     const config = statusMap[status] || statusMap.pendente;
     return (
-      <span className={`inline-flex items-center px-3 py-1 text-xs font-semibold rounded-full border ${config.bg} ${config.text} ${config.border}`}>
+      <span
+        className={`inline-flex items-center px-3 py-1 text-xs font-semibold rounded-full border ${config.bg} ${config.text} ${config.border}`}
+      >
         {config.label}
       </span>
     );
@@ -109,8 +133,8 @@ const HistoricTable: React.FC = () => {
 
   const getVeracidadeBar = (veracidade: string) => {
     // Converter veracidade para porcentagem (assumindo que é uma string como "80%" ou um número)
-    const percentage = parseInt(veracidade.toString().replace('%', '')) || 0;
-    
+    const percentage = parseInt(veracidade.toString().replace("%", "")) || 0;
+
     let colorClass = "bg-danger-500";
     let bgClass = "bg-danger-100";
     if (percentage >= 80) {
@@ -123,7 +147,7 @@ const HistoricTable: React.FC = () => {
       colorClass = "bg-orange-500";
       bgClass = "bg-orange-100";
     }
-    
+
     // Calcular largura baseada na porcentagem
     const getWidthClass = (perc: number) => {
       if (perc >= 95) return "w-full";
@@ -147,13 +171,29 @@ const HistoricTable: React.FC = () => {
       if (perc >= 5) return "w-1/12";
       return "w-1/12";
     };
-    
+
     return (
       <div className="flex items-center space-x-3 min-w-36">
-        <div className={`flex-1 ${bgClass} rounded-full h-2.5 relative overflow-hidden border border-white-300`}>
-          <div className={`h-full ${colorClass} rounded-full transition-all duration-700 ${getWidthClass(percentage)}`} />
+        <div
+          className={`flex-1 ${bgClass} rounded-full h-2.5 relative overflow-hidden border border-white-300`}
+        >
+          <div
+            className={`h-full ${colorClass} rounded-full transition-all duration-700 ${getWidthClass(
+              percentage
+            )}`}
+          />
         </div>
-        <span className={`text-xs font-bold min-w-10 ${percentage >= 80 ? 'text-success-700' : percentage >= 60 ? 'text-warning-700' : percentage >= 40 ? 'text-orange-700' : 'text-danger-700'}`}>
+        <span
+          className={`text-xs font-bold min-w-10 ${
+            percentage >= 80
+              ? "text-success-700"
+              : percentage >= 60
+              ? "text-warning-700"
+              : percentage >= 40
+              ? "text-orange-700"
+              : "text-danger-700"
+          }`}
+        >
           {percentage}%
         </span>
       </div>
@@ -167,8 +207,12 @@ const HistoricTable: React.FC = () => {
         <div className="mb-8">
           <div className="flex justify-between items-center mb-6">
             <div>
-              <h1 className="text-3xl font-krona text-black-800 mb-2">Histórico</h1>
-              <p className="text-black-600 font-outfit">Gerencie e visualize todos os registros do sistema</p>
+              <h1 className="text-3xl font-krona text-black-800 mb-2">
+                Histórico
+              </h1>
+              <p className="text-black-600 font-outfit">
+                Gerencie e visualize todos os registros do sistema
+              </p>
             </div>
             <div className="flex space-x-3">
               <button className="inline-flex items-center px-4 py-2 bg-white-50 border border-orange-200 rounded-lg text-sm font-medium text-orange-700 hover:bg-orange-50 transition-colors shadow-sm">
@@ -192,7 +236,7 @@ const HistoricTable: React.FC = () => {
                     placeholder="Digite o tipo para buscar..."
                     className="w-full pl-12 pr-4 py-3 border border-white-300 rounded-lg focus:ring-2 focus:ring-orange-400 focus:border-orange-400 transition-all duration-200 bg-white-50 font-outfit"
                     value={filterTipo}
-                    onChange={e => setFilterTipo(e.target.value)}
+                    onChange={(e) => setFilterTipo(e.target.value)}
                   />
                 </div>
               </div>
@@ -207,7 +251,7 @@ const HistoricTable: React.FC = () => {
                     title="Filtrar por data"
                     className="w-full pl-12 pr-4 py-3 border border-white-300 rounded-lg focus:ring-2 focus:ring-orange-400 focus:border-orange-400 transition-all duration-200 bg-white-50 font-outfit"
                     value={filterData}
-                    onChange={e => setFilterData(e.target.value)}
+                    onChange={(e) => setFilterData(e.target.value)}
                   />
                 </div>
               </div>
@@ -260,15 +304,20 @@ const HistoricTable: React.FC = () => {
               </thead>
               <tbody className="bg-white-50 divide-y divide-white-200">
                 {paginatedProducts.map((product, index) => (
-                  <tr key={product.id} className={`hover:bg-gradient-to-r hover:from-orange-25 hover:to-sunset-25 transition-all duration-200 ${index % 2 === 0 ? 'bg-white-50' : 'bg-white-100'}`}>
+                  <tr
+                    key={product.id}
+                    className={`hover:bg-gradient-to-r hover:from-orange-25 hover:to-sunset-25 transition-all duration-200 ${
+                      index % 2 === 0 ? "bg-white-50" : "bg-white-100"
+                    }`}
+                  >
                     <td className="px-6 py-4 whitespace-nowrap text-sm font-bold text-orange-700 font-outfit">
-                      #{product.id.toString().padStart(4, '0')}
+                      #{product.id.toString().padStart(4, "0")}
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap text-sm text-black-700 font-medium font-outfit">
-                      {new Date(product.data).toLocaleDateString('pt-BR', {
-                        day: '2-digit',
-                        month: '2-digit',
-                        year: 'numeric'
+                      {new Date(product.data).toLocaleDateString("pt-BR", {
+                        day: "2-digit",
+                        month: "2-digit",
+                        year: "numeric",
                       })}
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap text-sm text-black-800 font-outfit">
@@ -331,7 +380,8 @@ const HistoricTable: React.FC = () => {
                           Nenhum resultado encontrado
                         </h3>
                         <p className="text-black-600 font-outfit">
-                          Tente ajustar os filtros para encontrar o que está procurando.
+                          Tente ajustar os filtros para encontrar o que está
+                          procurando.
                         </p>
                       </div>
                     </td>
@@ -346,11 +396,15 @@ const HistoricTable: React.FC = () => {
             <div className="px-6 py-5 border-t border-white-200 bg-gradient-to-r from-orange-50 to-sunset-50">
               <div className="flex items-center justify-between">
                 <div className="text-sm text-black-700 font-medium font-outfit">
-                  Mostrando {startIndex + 1} - {Math.min(startIndex + itemsPerPage, filtered.length)} de {filtered.length} • Página {currentPage} de {totalPages}
+                  Mostrando {startIndex + 1} -{" "}
+                  {Math.min(startIndex + itemsPerPage, filtered.length)} de{" "}
+                  {filtered.length} • Página {currentPage} de {totalPages}
                 </div>
                 <div className="flex space-x-2">
                   <button
-                    onClick={() => setCurrentPage(prev => Math.max(1, prev - 1))}
+                    onClick={() =>
+                      setCurrentPage((prev) => Math.max(1, prev - 1))
+                    }
                     disabled={currentPage === 1}
                     className="px-4 py-2 text-sm border border-orange-300 rounded-lg hover:bg-orange-100 disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-200 bg-white-50 text-black-700 font-outfit"
                   >
@@ -373,7 +427,9 @@ const HistoricTable: React.FC = () => {
                     );
                   })}
                   <button
-                    onClick={() => setCurrentPage(prev => Math.min(totalPages, prev + 1))}
+                    onClick={() =>
+                      setCurrentPage((prev) => Math.min(totalPages, prev + 1))
+                    }
                     disabled={currentPage === totalPages}
                     className="px-4 py-2 text-sm border border-orange-300 rounded-lg hover:bg-orange-100 disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-200 bg-white-50 text-black-700 font-outfit"
                   >
