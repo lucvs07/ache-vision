@@ -45,15 +45,25 @@ const Modal: React.FC<ModalProps> = ({
         onClick={(e) => e.stopPropagation()}
       >
         <div className="header-modal">
-          <IconComponent
-            size={56}
-            weight="fill"
-            className={mapStatus[props.status as keyof typeof mapStatus].theme}
-          />
-          <span>{props.tipo}</span>
-          <span>
-            {ApiService.formatDateToBR(props.data)}
-          </span>
+          <div className="label-content">
+            <IconComponent
+              size={56}
+              weight="fill"
+              className={
+                mapStatus[props.status as keyof typeof mapStatus].theme
+              }
+            />
+            <span
+              className={
+                mapStatus[props.status as keyof typeof mapStatus].theme
+              }
+            >
+              {props.tipo}
+            </span>
+          </div>
+          <div className="data-content">
+            <span>{ApiService.formatDateToBR(props.data)}</span>
+          </div>
         </div>
 
         <ReactCompareSlider
