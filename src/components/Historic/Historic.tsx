@@ -3,10 +3,11 @@ import { useEffect } from "react";
 import "./styles.css";
 import Modal from "../shared/Modal/Modal";
 import Card from "../shared/Card/Card";
-import { ArrowCircleRightIcon } from "@phosphor-icons/react";
+import { ArrowCircleRightIcon} from "@phosphor-icons/react";
 import type { Product } from "../../types/i-product";
 import { ApiService } from "../../services/api.service";
 import { ErrorBoundary } from "react-error-boundary";
+import { Link } from "react-router-dom";
 
 const Historic: React.FC = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -38,11 +39,13 @@ const Historic: React.FC = () => {
     <section className="section-historic">
       <div className="section-header">
         <h2 className="font-krona text-2xl">Histórico</h2>
-        <ArrowCircleRightIcon
-          size={48}
-          weight="fill"
-          className="text-orange-700 cursor-pointer"
-        />
+        <Link to="/historico">
+          <ArrowCircleRightIcon
+            size={48}
+            weight="fill"
+            className="text-orange-700 cursor-pointer"
+          />
+        </Link>
       </div>
       <div className="cards-container">
         {(productsList ?? []).map((product) => (
@@ -66,8 +69,7 @@ const Historic: React.FC = () => {
             veracidade={selectedCard.veracidade}
             imgLabel={selectedCard.imgLabel}
             imgNormal={selectedCard.imgNormal}
-          >
-          </Modal>
+          ></Modal>
         </ErrorBoundary>
       )}
     </section>
