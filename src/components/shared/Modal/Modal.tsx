@@ -31,6 +31,25 @@ const Modal: React.FC<ModalProps> = ({
   children,
   ...props
 }) => {
+  // Transforma uma URL do Cloudinary para aplicar parâmetros de transformação (resize, crop, quality)
+  const getCloudinaryUrl = (
+    url: string | undefined,
+    opts?: { w?: number; h?: number; crop?: string; quality?: string }
+  ) => {
+    if (!url) return url;
+    const defaults = { w: 800, h: 600, crop: "fit", quality: "auto" };
+    const { w, h, crop, quality } = { ...defaults, ...(opts || {}) };
+    try {
+      const parsed = new URL(url);
+      // Apenas transforma URLs que contenham o segmento '/upload/' (Cloudinary delivery URL)
+      if (!parsed.pathname.includes("/upload/")) return url;
+      const [prefix, suffix] = parsed.pathname.split("/upload/");
+      const transformSegment = `upload/w_${w},h_${h},c_${crop},q_${quality}`;
+      return `${parsed.protocol}//${parsed.host}${prefix}/${transformSegment}/${suffix}`;
+    } catch {
+      return url;
+    }
+  };
   const IconComponent =
     mapStatus[props.status as keyof typeof mapStatus].icon || SealQuestionIcon;
   // TODO: implement modal content using props
@@ -41,7 +60,7 @@ const Modal: React.FC<ModalProps> = ({
       onClick={onClose}
     >
       <div
-        className="bg-white-50 p-6 rounded-md shadow-lg min-w-[300px]"
+        className="bg-white-50 p-6 rounded-md shadow-lg min-w-[300px] flex flex-col gap-4 max-w-[90vw] max-h-[90vh] overflow-auto"
         onClick={(e) => e.stopPropagation()}
       >
         <div className="header-modal">
@@ -69,14 +88,20 @@ const Modal: React.FC<ModalProps> = ({
         <ReactCompareSlider
           itemOne={
             <ReactCompareSliderImage
-              src={props.imgLabel}
-              alt={props.tipo + "Com Label"}
+              src={
+                getCloudinaryUrl(props.imgLabel, { w: 900, h: 600 }) ||
+                props.imgLabel
+              }
+              alt={props.tipo + " Com Label"}
             />
           }
           itemTwo={
             <ReactCompareSliderImage
-              src={props.imgNormal}
-              alt={props.tipo + "Sem Label"}
+              src={
+                getCloudinaryUrl(props.imgNormal, { w: 900, h: 600 }) ||
+                props.imgNormal
+              }
+              alt={props.tipo + " Sem Label"}
             />
           }
         />
