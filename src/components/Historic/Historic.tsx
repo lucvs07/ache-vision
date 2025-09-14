@@ -3,7 +3,7 @@ import { useEffect } from "react";
 import "./styles.css";
 import Modal from "../shared/Modal/Modal";
 import Card from "../shared/Card/Card";
-import { ArrowCircleRightIcon} from "@phosphor-icons/react";
+import { ArrowCircleRightIcon } from "@phosphor-icons/react";
 import type { Product } from "../../types/i-product";
 import { ApiService } from "../../services/api.service";
 import { ErrorBoundary } from "react-error-boundary";
@@ -48,13 +48,19 @@ const Historic: React.FC = () => {
         </Link>
       </div>
       <div className="cards-container">
-        {(productsList ?? []).map((product) => (
-          <Card
-            key={product.id}
-            {...product}
-            onClick={() => handleCardClick(product)}
-          />
-        ))}
+        {(productsList ?? [])
+          .slice()
+          .sort(
+            (a, b) => new Date(b.data).getTime() - new Date(a.data).getTime()
+          )
+          .slice(0, 5)
+          .map((product) => (
+            <Card
+              key={product.id}
+              {...product}
+              onClick={() => handleCardClick(product)}
+            />
+          ))}
       </div>
       {isModalOpen && selectedCard && (
         <ErrorBoundary fallback={<div>Something went wrong</div>}>

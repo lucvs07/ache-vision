@@ -1,23 +1,27 @@
 // React import não necessário com JSX automatic runtime
 import { LineChart } from "@mui/x-charts/LineChart";
 import { Typography } from "@mui/material";
+/* eslint-disable @typescript-eslint/no-explicit-any */
+type Props = {
+  title?: string;
+  xAxis?: any[];
+  series?: any[];
+  height?: number;
+};
+/* eslint-enable @typescript-eslint/no-explicit-any */
 
-export default function MockLineChart() {
+export default function MockLineChart({
+  title = "Gráfico",
+  xAxis = [{ data: [] }],
+  series = [],
+  height = 300,
+}: Props) {
   return (
     <div className="w-full h-full bg-transparent shadow-none rounded-lg flex flex-col min-w-0 min-h-0">
       <Typography variant="h6" gutterBottom>
-        Gráfico
+        {title}
       </Typography>
-      <LineChart
-        xAxis={[{ data: [1, 2, 3, 5, 8, 10] }]}
-        series={[
-          {
-            data: [2, 5.5, 2, 8.5, 1.5, 5],
-            color: "oklch(0.62 0.28 20)",
-          },
-        ]}
-        height={350}
-      />
+      <LineChart xAxis={xAxis} series={series} height={height} />
     </div>
   );
 }
