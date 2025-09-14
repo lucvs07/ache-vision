@@ -58,7 +58,7 @@ const Modal: React.FC<ModalProps> = ({
                 mapStatus[props.status as keyof typeof mapStatus].theme
               }
             >
-              {props.tipo}
+              {ApiService.formatLabel(props.tipo)}
             </span>
           </div>
           <div className="data-content">

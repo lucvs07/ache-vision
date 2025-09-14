@@ -59,4 +59,20 @@ export class ApiService {
       timeZone: "UTC",
     });
   }
+  static formatLabel(label: string): string {
+    const labelMap: Record<string, string> = {
+      Blister_Completo: "Blister Completo",
+      Blister_Incompleto: "Blister Incompleto",
+      Blister_Vazio: "Blister Vazio",
+      Embalagem_Boa: "Embalagem Boa",
+      Embalagem_Com_Avaria: "Embalagem com Avaria",
+      Embalagem_Rosa: "Embalagem Rosa",
+      Frasco_Completo: "Frasco Completo",
+      Frasco_Incompleto: "Frasco Incompleto",
+      Frasco_Rotulo_Incompleto: "Frasco com Rótulo Incompleto",
+      Frasco_Sem_Dosador: "Frasco sem Dosador",
+      Frasco_Sem_Rotulo: "Frasco sem Rótulo",
+    };
+    return labelMap[label] || label;
+  }
 }

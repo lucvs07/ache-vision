@@ -50,7 +50,7 @@ const Card: React.FC<CardProps> = ({ veracidade, tipo, onClick, ...rest }) => {
             themeStatus[rest.status as keyof typeof themeStatus]
           }`}
         >
-          {veracidade} {tipo}
+          {veracidade} {ApiService.formatLabel(tipo)}
         </p>
       </div>
       <div className="card-footer">

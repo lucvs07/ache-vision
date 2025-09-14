@@ -9,7 +9,7 @@
 }
 
 .label-content span {
-    @apply font-krona text-xl;
+    @apply font-krona text-xl w-full;
 }
 .data-content {
     @apply text-white-50 font-outfit text-xl w-full text-end    ;
