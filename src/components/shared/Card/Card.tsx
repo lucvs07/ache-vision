@@ -1,6 +1,7 @@
 import React from "react";
 import "./styles.css";
 import type { Product } from "../../../types/i-product";
+import { ApiService } from "../../../services/api.service";
 import {
   InfoIcon,
   PackageIcon,
@@ -35,9 +36,7 @@ const Card: React.FC<CardProps> = ({ veracidade, tipo, onClick, ...rest }) => {
           className="text-white-50"
         ></PackageIcon>
         <span>
-          {rest.data instanceof Date
-            ? rest.data.toLocaleDateString()
-            : rest.data}
+          {ApiService.formatDateToBR(rest.data)}
         </span>
       </div>
       <div className="card-content">
