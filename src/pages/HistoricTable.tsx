@@ -335,7 +335,7 @@ const HistoricTable: React.FC = () => {
                       <div className="flex space-x-2">
                         <button
                           onClick={() => handleViewDetails(product)}
-                          className="p-2.5 text-orange-600 hover:bg-orange-100 rounded-lg transition-all duration-200 border border-orange-200 hover:border-orange-300 shadow-sm"
+                          className="p-2.5 text-orange-600 hover:bg-orange-100 rounded-lg transition-all duration-200 border border-orange-200 hover:border-orange-300 shadow-sm cursor-pointer"
                           title="Visualizar detalhes"
                         >
                           <Eye className="w-4 h-4" />
@@ -343,7 +343,7 @@ const HistoricTable: React.FC = () => {
                         {product.status !== "aprovado" && (
                           <button
                             onClick={() => handleApprove(product)}
-                            className="p-2.5 text-success-600 hover:bg-success-100 rounded-lg transition-all duration-200 border border-success-200 hover:border-success-300 shadow-sm"
+                            className="p-2.5 text-success-600 hover:bg-success-100 rounded-lg transition-all duration-200 border border-success-200 hover:border-success-300 shadow-sm cursor-pointer"
                             title="Aprovar"
                           >
                             <Check className="w-4 h-4" />
@@ -352,7 +352,7 @@ const HistoricTable: React.FC = () => {
                         {product.status !== "rejeitado" && (
                           <button
                             onClick={() => handleReject(product)}
-                            className="p-2.5 text-danger-600 hover:bg-danger-100 rounded-lg transition-all duration-200 border border-danger-200 hover:border-danger-300 shadow-sm"
+                            className="p-2.5 text-danger-600 hover:bg-danger-100 rounded-lg transition-all duration-200 border border-danger-200 hover:border-danger-300 shadow-sm cursor-pointer"
                             title="Rejeitar"
                           >
                             <X className="w-4 h-4" />
@@ -360,7 +360,7 @@ const HistoricTable: React.FC = () => {
                         )}
                         <button
                           onClick={() => handleDelete(product)}
-                          className="p-2.5 text-black-600 hover:bg-black-100 rounded-lg transition-all duration-200 border border-black-200 hover:border-black-300 shadow-sm"
+                          className="p-2.5 text-black-600 hover:bg-black-100 rounded-lg transition-all duration-200 border border-black-200 hover:border-black-300 shadow-sm cursor-pointer"
                           title="Excluir"
                         >
                           <Trash2 className="w-4 h-4" />
