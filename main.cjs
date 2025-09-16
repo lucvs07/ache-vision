@@ -21,7 +21,7 @@ function createWindow() {
   win.loadFile(path.join(__dirname, "dist", "index.html"));
 
   // Opcional: Abre as ferramentas de desenvolvedor (DevTools)
-  win.webContents.openDevTools();
+  //win.webContents.openDevTools();
 }
 
 // Este método é chamado quando o Electron finaliza a inicialização

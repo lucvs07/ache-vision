@@ -1,6 +1,6 @@
 import "./App.css";
 
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { HashRouter as Router, Routes, Route } from "react-router-dom";
 import Dashboard from "./pages/Dashboard";
 import HistoricTable from "./pages/HistoricTable";
 import Sidebar from "./components/shared/Sidebar/Sidebar";
