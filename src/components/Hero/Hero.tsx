@@ -12,12 +12,36 @@ import type { Product } from "../../types/i-product";
 
 const Hero: React.FC = () => {
   const [products, setProducts] = useState<Product[]>([]);
+  const [aprovados, setAprovados] = useState<number>(0);
+  const [comAvarias, setComAvarias] = useState<number>(0);
 
   useEffect(() => {
-    ApiService.getProducts()
-      .then((p) => setProducts(p))
-      .catch((err) => console.error(err));
+    const storedProducts = localStorage.getItem("products");
+    const storedAprovados = localStorage.getItem("aprovados");
+    const storedComAvarias = localStorage.getItem("comAvarias");
+
+    if (storedProducts && storedAprovados && storedComAvarias) {
+      setProducts(JSON.parse(storedProducts));
+      setAprovados(Number(storedAprovados));
+      setComAvarias(Number(storedComAvarias));
+    } else {
+      ApiService.getProducts()
+        .then((p) => {
+          setProducts(p);
+          const { aprovados, avarias } = ApiService.getAprovedProducts(p);
+          setAprovados(aprovados);
+          setComAvarias(avarias);
+
+          localStorage.setItem("products", JSON.stringify(p));
+          localStorage.setItem("aprovados", aprovados.toString());
+          localStorage.setItem("comAvarias", comAvarias.toString());
+        })
+        .catch((err) => console.error(err));
+    }
   }, []);
+
+  console.log("Aprovados:", aprovados);
+  console.log("Com Avarias:", comAvarias);
 
   const totalAnalyses = products.length;
   const approvedCount = products.filter((p) => p.status === "aprovado").length;
@@ -58,6 +82,8 @@ const Hero: React.FC = () => {
     header: "Lucas",
     icon: UserIcon,
     iconProps: { size: 40, weight: "fill" } as IconProps,
+    aprovados: aprovados,
+    comAvarias: comAvarias,
   };
 
   return (

@@ -3,6 +3,20 @@ import { type Product } from "../types/i-product";
 
 const API_BASE_URL = "https://achecourtroom-backend.onrender.com/analise";
 
+const ProductStatus = {
+  aprovado: ["Blister_Completo", "Embalagem_Boa", "Frasco_Completo"],
+  com_avaria: [
+    "Blister_Incompleto",
+    "Blister_Vazio",
+    "Embalagem_Com_Avaria",
+    "Embalagem_Rosa",
+    "Frasco_Incompleto",
+    "Frasco_Rotulo_Incompleto",
+    "Frasco_Sem_Dosador",
+    "Frasco_Sem_Rotulo",
+  ],
+};
+
 export class ApiService {
   static async getProducts(): Promise<Product[]> {
     const response = await fetch(`${API_BASE_URL}/all`);
@@ -74,5 +88,15 @@ export class ApiService {
       Frasco_Sem_Rotulo: "Frasco sem Rótulo",
     };
     return labelMap[label] || label;
+  }
+
+  static getAprovedProducts(products: Product[]): { aprovados: number; avarias: number } {
+    const aprovados = products.filter(
+      (product) => ProductStatus.aprovado.includes(product.tipo)
+    ).length;
+    const avarias = products.filter(
+      (product) => ProductStatus.com_avaria.includes(product.tipo)
+    ).length;
+    return { aprovados, avarias };
   }
 }
