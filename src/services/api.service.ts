@@ -15,6 +15,15 @@ const ProductStatus = {
     "Frasco_Sem_Dosador",
     "Frasco_Sem_Rotulo",
   ],
+  embalagem: ["Embalagem_Boa", "Embalagem_Com_Avaria", "Embalagem_Rosa"],
+  blister: ["Blister_Completo", "Blister_Incompleto", "Blister_Vazio"],
+  frasco: [
+    "Frasco_Completo",
+    "Frasco_Incompleto",
+    "Frasco_Rotulo_Incompleto",
+    "Frasco_Sem_Dosador",
+    "Frasco_Sem_Rotulo",
+  ],
 };
 
 export class ApiService {
@@ -90,13 +99,52 @@ export class ApiService {
     return labelMap[label] || label;
   }
 
-  static getAprovedProducts(products: Product[]): { aprovados: number; avarias: number } {
-    const aprovados = products.filter(
-      (product) => ProductStatus.aprovado.includes(product.tipo)
+  static getAprovedProducts(products: Product[]): {
+    aprovados: number;
+    avarias: number;
+  } {
+    const aprovados = products.filter((product) =>
+      ProductStatus.aprovado.includes(product.tipo)
     ).length;
-    const avarias = products.filter(
-      (product) => ProductStatus.com_avaria.includes(product.tipo)
+    const avarias = products.filter((product) =>
+      ProductStatus.com_avaria.includes(product.tipo)
     ).length;
     return { aprovados, avarias };
   }
+
+static queryIndicatorsByHourAndDay(
+    tipo: string,
+    startHour: number,
+    endHour: number,
+    day: Date,
+    products: Product[]
+): { aprovados: number; avarias: number; tipo: string; range: string; dia: string } {
+    // Normaliza o dia para comparar apenas ano, mês e dia
+    const targetDay = new Date(Date.UTC(day.getUTCFullYear(), day.getUTCMonth(), day.getUTCDate()));
+
+    const filtered = products.filter((product) => {
+        const date = new Date(product.data);
+        const productDay = new Date(Date.UTC(date.getUTCFullYear(), date.getUTCMonth(), date.getUTCDate()));
+        const hour = date.getUTCHours();
+        const isInHourRange = hour >= startHour && hour < endHour;
+        const isTipo = product.tipo === tipo;
+        const isSameDay = productDay.getTime() === targetDay.getTime();
+        return isTipo && isInHourRange && isSameDay;
+    });
+
+    const aprovados = filtered.filter((product) =>
+        ProductStatus.aprovado.includes(product.tipo)
+    ).length;
+    const avarias = filtered.filter((product) =>
+        ProductStatus.com_avaria.includes(product.tipo)
+    ).length;
+
+    return {
+        aprovados,
+        avarias,
+        tipo,
+        range: `${startHour}:00 - ${endHour}:00`,
+        dia: targetDay.toISOString().slice(0, 10),
+    };
+}
 }

@@ -17,13 +17,31 @@ const Hero: React.FC = () => {
 
   useEffect(() => {
     const storedProducts = localStorage.getItem("products");
+    console.log("Stored products from localStorage:", storedProducts);
     const storedAprovados = localStorage.getItem("aprovados");
     const storedComAvarias = localStorage.getItem("comAvarias");
 
     if (storedProducts && storedAprovados && storedComAvarias) {
-      setProducts(JSON.parse(storedProducts));
+      const parsedProducts = JSON.parse(storedProducts);
+      setProducts(parsedProducts);
       setAprovados(Number(storedAprovados));
       setComAvarias(Number(storedComAvarias));
+      console.log("Loaded products from localStorage", parsedProducts);
+    const {
+      aprovados: aprovados2,
+      avarias: avarias2,
+      tipo,
+      range,
+    } = ApiService.queryIndicatorsByHourAndDay(
+      "Embalagem_Boa",
+      7,
+      8,
+      new Date("2025-09-17"),
+      parsedProducts
+    );
+      console.log(
+        `Indicadores para ${tipo} no intervalo ${range}: Aprovados=${aprovados2}, Avarias=${avarias2}`
+      );
     } else {
       ApiService.getProducts()
         .then((p) => {
@@ -31,13 +49,13 @@ const Hero: React.FC = () => {
           const { aprovados, avarias } = ApiService.getAprovedProducts(p);
           setAprovados(aprovados);
           setComAvarias(avarias);
-
           localStorage.setItem("products", JSON.stringify(p));
           localStorage.setItem("aprovados", aprovados.toString());
-          localStorage.setItem("comAvarias", comAvarias.toString());
+          localStorage.setItem("comAvarias", avarias.toString());
         })
         .catch((err) => console.error(err));
     }
+    
   }, []);
 
   console.log("Aprovados:", aprovados);
