@@ -4,6 +4,7 @@ import { HashRouter as Router, Routes, Route } from "react-router-dom";
 import Dashboard from "./pages/Dashboard";
 import HistoricTable from "./pages/HistoricTable";
 import Sidebar from "./components/shared/Sidebar/Sidebar";
+import Consulta from "./pages/Consulta";
 
 function App() {
   return (
@@ -12,6 +13,7 @@ function App() {
       <Routes>
         <Route path="/" element={<Dashboard />} />
         <Route path="/historico" element={<HistoricTable />} />
+        <Route path="/consulta" element={<Consulta />} />
       </Routes>
     </Router>
   );

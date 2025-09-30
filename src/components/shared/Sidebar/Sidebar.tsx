@@ -4,12 +4,14 @@ import {
   type IconProps,
   SquaresFourIcon,
   ClockCounterClockwiseIcon,
+  MagnifyingGlassIcon
 } from "@phosphor-icons/react";
 import { Link } from "react-router-dom";
 
 const sidebarItems = [
   { text: "Dashboard", icon: SquaresFourIcon, to: "/" },
   { text: "Histórico", icon: ClockCounterClockwiseIcon, to: "/historico" },
+  { text: "Consulta", icon: MagnifyingGlassIcon, to: "/consulta" },
 ];
 
 const Sidebar: React.FC = () => {

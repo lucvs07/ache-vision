@@ -118,7 +118,7 @@ static queryIndicatorsByHourAndDay(
     endHour: number,
     day: Date,
     products: Product[]
-): { aprovados: number; avarias: number; tipo: string; range: string; dia: string } {
+): { aprovados: number; avarias: number; tipo: string; range: string; dia: string, produtosFiltrados?: Product[] } {
     // Normaliza o dia para comparar apenas ano, mês e dia
     const targetDay = new Date(Date.UTC(day.getUTCFullYear(), day.getUTCMonth(), day.getUTCDate()));
 
@@ -145,6 +145,7 @@ static queryIndicatorsByHourAndDay(
         tipo,
         range: `${startHour}:00 - ${endHour}:00`,
         dia: targetDay.toISOString().slice(0, 10),
+        produtosFiltrados: filtered
     };
 }
 }
