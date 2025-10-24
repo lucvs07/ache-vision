@@ -17,13 +17,25 @@ const HistoricTable: React.FC = () => {
   const [products, setProducts] = useState<Product[]>([]);
   const [filterTipo, setFilterTipo] = useState("");
   const [filterData, setFilterData] = useState("");
+  const [filterStatus, setFilterStatus] = useState("");
+  const [filterVeracidadeMin, setFilterVeracidadeMin] = useState(0);
+  const [filterVeracidadeMax, setFilterVeracidadeMax] = useState(100);
+  const [showFilters, setShowFilters] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 10;
 
   useEffect(() => {
-    ApiService.getProducts().then(setProducts).catch(console.error);
+    ApiService.getProducts()
+      .then((data) => {
+        // Ordena por data: mais recente primeiro
+        const sorted = data.sort((a, b) => 
+          new Date(b.data).getTime() - new Date(a.data).getTime()
+        );
+        setProducts(sorted);
+      })
+      .catch(console.error);
   }, []);
 
   const filtered = products.filter((p) => {
@@ -33,7 +45,13 @@ const HistoricTable: React.FC = () => {
     const dataMatch = filterData
       ? new Date(p.data).toISOString().split("T")[0] === filterData
       : true;
-    return tipoMatch && dataMatch;
+    const statusMatch = filterStatus
+      ? p.status === filterStatus
+      : true;
+    const veracidade = parseInt(p.veracidade.replace("%", ""));
+    const veracidadeMatch = veracidade >= filterVeracidadeMin && veracidade <= filterVeracidadeMax;
+    
+    return tipoMatch && dataMatch && statusMatch && veracidadeMatch;
   });
 
   const totalPages = Math.ceil(filtered.length / itemsPerPage);
@@ -80,15 +98,24 @@ const HistoricTable: React.FC = () => {
     }
   };
 
-  const handleDelete = async (product: Product) => {
-    if (window.confirm("Tem certeza que deseja excluir este item?")) {
+    const handleDelete = async (product: Product) => {
+    if (confirm(`Deseja excluir o registro #${product.id}?`)) {
       try {
         await ApiService.deleteProduct(product.id);
-        setProducts((prev) => prev.filter((p) => p.id !== product.id));
+        setProducts(products.filter((p) => p.id !== product.id));
       } catch (error) {
-        console.error("Erro ao deletar:", error);
+        console.error("Erro ao excluir:", error);
+        alert("Erro ao excluir o registro. Tente novamente.");
       }
     }
+  };
+
+  const handleClearFilters = () => {
+    setFilterTipo("");
+    setFilterData("");
+    setFilterStatus("");
+    setFilterVeracidadeMin(0);
+    setFilterVeracidadeMax(100);
   };
 
   const getStatusBadge = (status: string) => {
@@ -224,43 +251,141 @@ const HistoricTable: React.FC = () => {
 
           {/* Filters */}
           <div className="bg-white-50 rounded-xl shadow-sm border border-white-200 p-6 mb-6">
-            <div className="flex flex-wrap gap-6">
-              <div className="flex-1 min-w-64">
-                <label className="block text-sm font-semibold text-black-700 mb-3 font-outfit">
-                  Filtrar por tipo
-                </label>
-                <div className="relative">
-                  <Search className="absolute left-4 top-3.5 w-4 h-4 text-orange-400" />
-                  <input
-                    type="text"
-                    placeholder="Digite o tipo para buscar..."
-                    className="w-full pl-12 pr-4 py-3 border border-white-300 rounded-lg focus:ring-2 focus:ring-orange-400 focus:border-orange-400 transition-all duration-200 bg-white-50 font-outfit"
-                    value={filterTipo}
-                    onChange={(e) => setFilterTipo(e.target.value)}
-                  />
-                </div>
-              </div>
-              <div className="flex-1 min-w-48">
-                <label className="block text-sm font-semibold text-black-700 mb-3 font-outfit">
-                  Filtrar por data
-                </label>
-                <div className="relative">
-                  <Calendar className="absolute left-4 top-3.5 w-4 h-4 text-orange-400" />
-                  <input
-                    type="date"
-                    title="Filtrar por data"
-                    className="w-full pl-12 pr-4 py-3 border border-white-300 rounded-lg focus:ring-2 focus:ring-orange-400 focus:border-orange-400 transition-all duration-200 bg-white-50 font-outfit"
-                    value={filterData}
-                    onChange={(e) => setFilterData(e.target.value)}
-                  />
-                </div>
-              </div>
-              <div className="flex items-end">
-                <button className="px-4 py-3 bg-gradient-to-r from-orange-500 to-sunset-500 text-white-50 rounded-lg hover:from-orange-600 hover:to-sunset-600 transition-all duration-200 flex items-center shadow-md font-medium">
-                  <Filter className="w-4 h-4 mr-2" />
-                  Filtros
+            <div className="flex justify-between items-center mb-4">
+              <h3 className="text-lg font-semibold text-black-800 font-outfit flex items-center">
+                <Filter className="w-5 h-5 mr-2 text-orange-600" />
+                Filtros
+              </h3>
+              <div className="flex gap-2">
+                <button 
+                  onClick={handleClearFilters}
+                  className="px-4 py-2 text-sm bg-white-50 border border-white-300 text-black-700 rounded-lg hover:bg-white-100 transition-all duration-200 font-outfit"
+                >
+                  Limpar Filtros
+                </button>
+                <button 
+                  onClick={() => setShowFilters(!showFilters)}
+                  className="px-4 py-2 bg-gradient-to-r from-orange-500 to-sunset-500 text-white-50 rounded-lg hover:from-orange-600 hover:to-sunset-600 transition-all duration-200 flex items-center shadow-md font-medium text-sm"
+                >
+                  {showFilters ? "Ocultar" : "Mostrar"} Filtros
                 </button>
               </div>
+            </div>
+
+            {showFilters && (
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 pt-4 border-t border-white-200">
+                {/* Filtro de Tipo */}
+                <div>
+                  <label className="block text-sm font-semibold text-black-700 mb-3 font-outfit">
+                    Tipo
+                  </label>
+                  <div className="relative">
+                    <Search className="absolute left-4 top-3.5 w-4 h-4 text-orange-400" />
+                    <input
+                      type="text"
+                      placeholder="Digite o tipo..."
+                      className="w-full pl-12 pr-4 py-3 border border-white-300 rounded-lg focus:ring-2 focus:ring-orange-400 focus:border-orange-400 transition-all duration-200 bg-white-50 font-outfit"
+                      value={filterTipo}
+                      onChange={(e) => setFilterTipo(e.target.value)}
+                    />
+                  </div>
+                </div>
+
+                {/* Filtro de Data */}
+                <div>
+                  <label className="block text-sm font-semibold text-black-700 mb-3 font-outfit">
+                    Data
+                  </label>
+                  <div className="relative">
+                    <Calendar className="absolute left-4 top-3.5 w-4 h-4 text-orange-400" />
+                    <input
+                      type="date"
+                      title="Filtrar por data"
+                      className="w-full pl-12 pr-4 py-3 border border-white-300 rounded-lg focus:ring-2 focus:ring-orange-400 focus:border-orange-400 transition-all duration-200 bg-white-50 font-outfit"
+                      value={filterData}
+                      onChange={(e) => setFilterData(e.target.value)}
+                    />
+                  </div>
+                </div>
+
+                {/* Filtro de Status */}
+                <div>
+                  <label className="block text-sm font-semibold text-black-700 mb-3 font-outfit">
+                    Status
+                  </label>
+                  <select
+                    className="w-full px-4 py-3 border border-white-300 rounded-lg focus:ring-2 focus:ring-orange-400 focus:border-orange-400 transition-all duration-200 bg-white-50 font-outfit"
+                    value={filterStatus}
+                    onChange={(e) => setFilterStatus(e.target.value)}
+                  >
+                    <option value="">Todos</option>
+                    <option value="aprovado">Aprovado</option>
+                    <option value="rejeitado">Rejeitado</option>
+                    <option value="verificar">Verificar</option>
+                    <option value="pendente">Pendente</option>
+                  </select>
+                </div>
+
+                {/* Filtro de Veracidade */}
+                <div>
+                  <label className="block text-sm font-semibold text-black-700 mb-3 font-outfit">
+                    Veracidade (%)
+                  </label>
+                  <div className="flex gap-2 items-center">
+                    <input
+                      type="number"
+                      min="0"
+                      max="100"
+                      placeholder="Mín"
+                      className="w-full px-3 py-3 border border-white-300 rounded-lg focus:ring-2 focus:ring-orange-400 focus:border-orange-400 transition-all duration-200 bg-white-50 font-outfit"
+                      value={filterVeracidadeMin}
+                      onChange={(e) => setFilterVeracidadeMin(Number(e.target.value))}
+                    />
+                    <span className="text-black-600">-</span>
+                    <input
+                      type="number"
+                      min="0"
+                      max="100"
+                      placeholder="Máx"
+                      className="w-full px-3 py-3 border border-white-300 rounded-lg focus:ring-2 focus:ring-orange-400 focus:border-orange-400 transition-all duration-200 bg-white-50 font-outfit"
+                      value={filterVeracidadeMax}
+                      onChange={(e) => setFilterVeracidadeMax(Number(e.target.value))}
+                    />
+                  </div>
+                </div>
+              </div>
+            )}
+
+            {/* Filtros Rápidos - Sempre Visíveis */}
+            <div className="flex flex-wrap gap-2 mt-4 pt-4 border-t border-white-200">
+              <span className="text-sm font-semibold text-black-700 font-outfit mr-2">Filtros rápidos:</span>
+              {filterTipo && (
+                <span className="inline-flex items-center px-3 py-1 bg-orange-100 text-orange-700 rounded-full text-sm font-medium">
+                  Tipo: {filterTipo}
+                  <button onClick={() => setFilterTipo("")} className="ml-2 hover:text-orange-900">×</button>
+                </span>
+              )}
+              {filterData && (
+                <span className="inline-flex items-center px-3 py-1 bg-orange-100 text-orange-700 rounded-full text-sm font-medium">
+                  Data: {new Date(filterData).toLocaleDateString("pt-BR")}
+                  <button onClick={() => setFilterData("")} className="ml-2 hover:text-orange-900">×</button>
+                </span>
+              )}
+              {filterStatus && (
+                <span className="inline-flex items-center px-3 py-1 bg-orange-100 text-orange-700 rounded-full text-sm font-medium">
+                  Status: {filterStatus}
+                  <button onClick={() => setFilterStatus("")} className="ml-2 hover:text-orange-900">×</button>
+                </span>
+              )}
+              {(filterVeracidadeMin > 0 || filterVeracidadeMax < 100) && (
+                <span className="inline-flex items-center px-3 py-1 bg-orange-100 text-orange-700 rounded-full text-sm font-medium">
+                  Veracidade: {filterVeracidadeMin}% - {filterVeracidadeMax}%
+                  <button onClick={() => { setFilterVeracidadeMin(0); setFilterVeracidadeMax(100); }} className="ml-2 hover:text-orange-900">×</button>
+                </span>
+              )}
+              {!filterTipo && !filterData && !filterStatus && filterVeracidadeMin === 0 && filterVeracidadeMax === 100 && (
+                <span className="text-sm text-black-600 font-outfit italic">Nenhum filtro ativo</span>
+              )}
             </div>
           </div>
         </div>
