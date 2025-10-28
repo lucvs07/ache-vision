@@ -4,8 +4,6 @@ import type { Product } from "../types/i-product";
 import Modal from "../components/shared/Modal/Modal";
 import {
   Eye,
-  Check,
-  X,
   Trash2,
   Search,
   Calendar,
@@ -46,7 +44,7 @@ const HistoricTable: React.FC = () => {
       ? new Date(p.data).toISOString().split("T")[0] === filterData
       : true;
     const statusMatch = filterStatus
-      ? p.status === filterStatus
+      ? getProductStatus(p.tipo) === filterStatus
       : true;
     const veracidade = parseInt(p.veracidade.replace("%", ""));
     const veracidadeMatch = veracidade >= filterVeracidadeMin && veracidade <= filterVeracidadeMax;
@@ -66,39 +64,7 @@ const HistoricTable: React.FC = () => {
     setIsModalOpen(true);
   };
 
-  const handleApprove = async (product: Product) => {
-    try {
-      await ApiService.updateProduct(product.id, {
-        ...product,
-        status: "aprovado",
-      });
-      setProducts((prev) =>
-        prev.map((p) =>
-          p.id === product.id ? { ...p, status: "aprovado" } : p
-        )
-      );
-    } catch (error) {
-      console.error("Erro ao aprovar:", error);
-    }
-  };
-
-  const handleReject = async (product: Product) => {
-    try {
-      await ApiService.updateProduct(product.id, {
-        ...product,
-        status: "rejeitado",
-      });
-      setProducts((prev) =>
-        prev.map((p) =>
-          p.id === product.id ? { ...p, status: "rejeitado" } : p
-        )
-      );
-    } catch (error) {
-      console.error("Erro ao rejeitar:", error);
-    }
-  };
-
-    const handleDelete = async (product: Product) => {
+  const handleDelete = async (product: Product) => {
     if (confirm(`Deseja excluir o registro #${product.id}?`)) {
       try {
         await ApiService.deleteProduct(product.id);
@@ -118,7 +84,23 @@ const HistoricTable: React.FC = () => {
     setFilterVeracidadeMax(100);
   };
 
-  const getStatusBadge = (status: string) => {
+  // Determina se o produto está aprovado ou defeituoso com base no tipo
+  const isProductApproved = (tipo: string): boolean => {
+    const tiposAprovados = [
+      "Frasco_Completo",
+      "Embalagem_Boa", 
+      "Blister_Completo"
+    ];
+    return tiposAprovados.some(t => tipo.toLowerCase() === t.toLowerCase());
+  };
+
+  // Determina o status visual baseado no tipo do produto
+  const getProductStatus = (tipo: string): "aprovado" | "defeituoso" => {
+    return isProductApproved(tipo) ? "aprovado" : "defeituoso";
+  };
+
+  const getStatusBadge = (tipo: string) => {
+    const status = getProductStatus(tipo);
     const statusMap: Record<
       string,
       { bg: string; text: string; label: string; border: string }
@@ -126,29 +108,17 @@ const HistoricTable: React.FC = () => {
       aprovado: {
         bg: "bg-success-100",
         text: "text-success-800",
-        label: "Aprovado",
+        label: "✓ Aprovado",
         border: "border-success-300",
       },
-      rejeitado: {
+      defeituoso: {
         bg: "bg-danger-100",
         text: "text-danger-800",
-        label: "Rejeitado",
+        label: "✗ Defeituoso",
         border: "border-danger-300",
       },
-      verificar: {
-        bg: "bg-warning-100",
-        text: "text-warning-800",
-        label: "Verificar",
-        border: "border-warning-300",
-      },
-      pendente: {
-        bg: "bg-orange-100",
-        text: "text-orange-800",
-        label: "Pendente",
-        border: "border-orange-300",
-      },
     };
-    const config = statusMap[status] || statusMap.pendente;
+    const config = statusMap[status];
     return (
       <span
         className={`inline-flex items-center px-3 py-1 text-xs font-semibold rounded-full border ${config.bg} ${config.text} ${config.border}`}
@@ -158,7 +128,7 @@ const HistoricTable: React.FC = () => {
     );
   };
 
-  const getVeracidadeBar = (veracidade: string) => {
+  const getConfiancaBar = (veracidade: string) => {
     // Converter veracidade para porcentagem (assumindo que é uma string como "80%" ou um número)
     const percentage = parseInt(veracidade.toString().replace("%", "")) || 0;
 
@@ -320,16 +290,14 @@ const HistoricTable: React.FC = () => {
                   >
                     <option value="">Todos</option>
                     <option value="aprovado">Aprovado</option>
-                    <option value="rejeitado">Rejeitado</option>
-                    <option value="verificar">Verificar</option>
-                    <option value="pendente">Pendente</option>
+                    <option value="defeituoso">Defeituoso</option>
                   </select>
                 </div>
 
-                {/* Filtro de Veracidade */}
+                {/* Filtro de Confiança do Modelo */}
                 <div>
                   <label className="block text-sm font-semibold text-black-700 mb-3 font-outfit">
-                    Veracidade (%)
+                    Confiança do Modelo (%)
                   </label>
                   <div className="flex gap-2 items-center">
                     <input
@@ -379,7 +347,7 @@ const HistoricTable: React.FC = () => {
               )}
               {(filterVeracidadeMin > 0 || filterVeracidadeMax < 100) && (
                 <span className="inline-flex items-center px-3 py-1 bg-orange-100 text-orange-700 rounded-full text-sm font-medium">
-                  Veracidade: {filterVeracidadeMin}% - {filterVeracidadeMax}%
+                  Confiança: {filterVeracidadeMin}% - {filterVeracidadeMax}%
                   <button onClick={() => { setFilterVeracidadeMin(0); setFilterVeracidadeMax(100); }} className="ml-2 hover:text-orange-900">×</button>
                 </span>
               )}
@@ -420,7 +388,7 @@ const HistoricTable: React.FC = () => {
                     Status
                   </th>
                   <th className="px-6 py-4 text-left text-xs font-bold text-black-700 uppercase tracking-wider font-outfit">
-                    Veracidade
+                    Confiança do Modelo
                   </th>
                   <th className="px-6 py-4 text-left text-xs font-bold text-black-700 uppercase tracking-wider font-outfit">
                     Ações
@@ -451,10 +419,10 @@ const HistoricTable: React.FC = () => {
                       </span>
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap">
-                      {getStatusBadge(product.status)}
+                      {getStatusBadge(product.tipo)}
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap">
-                      {getVeracidadeBar(product.veracidade)}
+                      {getConfiancaBar(product.veracidade)}
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap text-sm text-black-600">
                       <div className="flex space-x-2">
@@ -465,24 +433,6 @@ const HistoricTable: React.FC = () => {
                         >
                           <Eye className="w-4 h-4" />
                         </button>
-                        {product.status !== "aprovado" && (
-                          <button
-                            onClick={() => handleApprove(product)}
-                            className="p-2.5 text-success-600 hover:bg-success-100 rounded-lg transition-all duration-200 border border-success-200 hover:border-success-300 shadow-sm cursor-pointer"
-                            title="Aprovar"
-                          >
-                            <Check className="w-4 h-4" />
-                          </button>
-                        )}
-                        {product.status !== "rejeitado" && (
-                          <button
-                            onClick={() => handleReject(product)}
-                            className="p-2.5 text-danger-600 hover:bg-danger-100 rounded-lg transition-all duration-200 border border-danger-200 hover:border-danger-300 shadow-sm cursor-pointer"
-                            title="Rejeitar"
-                          >
-                            <X className="w-4 h-4" />
-                          </button>
-                        )}
                         <button
                           onClick={() => handleDelete(product)}
                           className="p-2.5 text-black-600 hover:bg-black-100 rounded-lg transition-all duration-200 border border-black-200 hover:border-black-300 shadow-sm cursor-pointer"

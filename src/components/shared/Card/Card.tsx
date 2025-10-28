@@ -6,18 +6,27 @@ import {
   InfoIcon,
   PackageIcon,
   SealCheckIcon,
-  SealQuestionIcon,
   SealWarningIcon,
 } from "@phosphor-icons/react";
+
+// Determina se o produto está aprovado ou defeituoso com base no tipo
+const isProductApproved = (tipo: string): boolean => {
+  const tiposAprovados = [
+    "Frasco_Completo",
+    "Embalagem_Boa", 
+    "Blister_Completo"
+  ];
+  return tiposAprovados.some(t => tipo.toLowerCase() === t.toLowerCase());
+};
+
 const sealStatus = {
   aprovado: SealCheckIcon,
-  verificar: SealQuestionIcon,
-  rejeitado: SealWarningIcon,
+  defeituoso: SealWarningIcon,
 };
+
 const themeStatus = {
   aprovado: "text-success-800",
-  verificar: "text-warning-800",
-  rejeitado: "text-danger-800",
+  defeituoso: "text-danger-800",
 };
 
 interface CardProps extends Product {
@@ -25,8 +34,9 @@ interface CardProps extends Product {
 }
 
 const Card: React.FC<CardProps> = ({ veracidade, tipo, onClick, ...rest }) => {
-  const IconComponent =
-    sealStatus[rest.status as keyof typeof sealStatus] || SealQuestionIcon;
+  const currentStatus = isProductApproved(tipo) ? "aprovado" : "defeituoso";
+  const IconComponent = sealStatus[currentStatus];
+  
   return (
     <div className="card">
       <div className="card-header">
@@ -43,14 +53,15 @@ const Card: React.FC<CardProps> = ({ veracidade, tipo, onClick, ...rest }) => {
         <IconComponent
           size={56}
           weight="fill"
-          className={themeStatus[rest.status as keyof typeof themeStatus]}
+          className={themeStatus[currentStatus]}
         />
         <p
-          className={`card-description font-krona ${
-            themeStatus[rest.status as keyof typeof themeStatus]
-          }`}
+          className={`card-description font-krona ${themeStatus[currentStatus]}`}
         >
-          {veracidade} {ApiService.formatLabel(tipo)}
+          {ApiService.formatLabel(tipo)}
+        </p>
+        <p className="text-xs text-black-600 mt-1">
+          Confiança: <span className="font-bold">{veracidade}</span>
         </p>
       </div>
       <div className="card-footer">

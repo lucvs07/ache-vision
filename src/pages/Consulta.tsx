@@ -3,6 +3,20 @@ import { ApiService } from "../services/api.service";
 import type { Product } from "../types/i-product";
 import Modal from "../components/shared/Modal/Modal";
 
+// Determina se o produto está aprovado ou defeituoso com base no tipo
+const isProductApproved = (tipo: string): boolean => {
+  const tiposAprovados = [
+    "Frasco_Completo",
+    "Embalagem_Boa", 
+    "Blister_Completo"
+  ];
+  return tiposAprovados.some(t => tipo.toLowerCase() === t.toLowerCase());
+};
+
+const getProductStatus = (tipo: string): "aprovado" | "defeituoso" => {
+  return isProductApproved(tipo) ? "aprovado" : "defeituoso";
+};
+
 const Consulta: React.FC = () => {
   const [tipo, setTipo] = useState("");
   const [dia, setDia] = useState("");
@@ -188,15 +202,12 @@ const Consulta: React.FC = () => {
                       <td className="px-6 py-4 whitespace-nowrap">
                         <span
                           className={`inline-flex items-center px-3 py-1 text-xs font-semibold rounded-full border ${
-                            product.status === "aprovado"
+                            getProductStatus(product.tipo) === "aprovado"
                               ? "bg-success-100 text-success-800 border-success-300"
-                              : product.status === "rejeitado"
-                              ? "bg-danger-100 text-danger-800 border-danger-300"
-                              : "bg-orange-100 text-orange-800 border-orange-300"
+                              : "bg-danger-100 text-danger-800 border-danger-300"
                           }`}
                         >
-                          {product.status.charAt(0).toUpperCase() +
-                            product.status.slice(1)}
+                          {getProductStatus(product.tipo) === "aprovado" ? "✓ Aprovado" : "✗ Defeituoso"}
                         </span>
                       </td>
                       <td className="px-6 py-4 whitespace-nowrap text-sm text-black-600">
