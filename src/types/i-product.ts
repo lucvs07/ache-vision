@@ -1,6 +1,6 @@
 export interface Product
 {
-    id : number;
+    id : string;
     data: Date;
     tipo: string;
     aprovado: boolean;

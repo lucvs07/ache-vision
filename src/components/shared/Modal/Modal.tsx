@@ -3,7 +3,6 @@ import type { Product } from "../../../types/i-product";
 import "./styles.css";
 import {
   SealCheckIcon,
-  SealQuestionIcon,
   SealWarningIcon,
 } from "@phosphor-icons/react";
 import {
@@ -19,10 +18,19 @@ interface ModalProps extends Product {
   // ...outras props...
 }
 
+// Determina se o produto está aprovado ou defeituoso com base no tipo
+const isProductApproved = (tipo: string): boolean => {
+  const tiposAprovados = [
+    "Frasco_Completo",
+    "Embalagem_Boa", 
+    "Blister_Completo"
+  ];
+  return tiposAprovados.some(t => tipo.toLowerCase() === t.toLowerCase());
+};
+
 const mapStatus = {
   aprovado: { theme: "text-success-800", icon: SealCheckIcon },
-  verificar: { theme: "text-warning-800", icon: SealQuestionIcon },
-  rejeitado: { theme: "text-danger-800", icon: SealWarningIcon },
+  defeituoso: { theme: "text-danger-800", icon: SealWarningIcon },
 };
 
 const Modal: React.FC<ModalProps> = ({
@@ -50,8 +58,10 @@ const Modal: React.FC<ModalProps> = ({
       return url;
     }
   };
-  const IconComponent =
-    mapStatus[props.status as keyof typeof mapStatus].icon || SealQuestionIcon;
+  
+  const currentStatus = isProductApproved(props.tipo) ? "aprovado" : "defeituoso";
+  const IconComponent = mapStatus[currentStatus].icon;
+  
   // TODO: implement modal content using props
   if (!open) return null;
   return (
@@ -68,20 +78,26 @@ const Modal: React.FC<ModalProps> = ({
             <IconComponent
               size={56}
               weight="fill"
-              className={
-                mapStatus[props.status as keyof typeof mapStatus].theme
-              }
+              className={mapStatus[currentStatus].theme}
             />
             <span
-              className={
-                mapStatus[props.status as keyof typeof mapStatus].theme
-              }
+              className={mapStatus[currentStatus].theme}
             >
               {ApiService.formatLabel(props.tipo)}
             </span>
           </div>
           <div className="data-content">
             <span>{ApiService.formatDateToBR(props.data)}</span>
+            <div className="flex items-center gap-2 text-sm">
+              <span className="font-semibold text-black-700">Confiança:</span>
+              <span className={`font-bold ${
+                parseInt(props.veracidade) >= 80 ? "text-success-700" :
+                parseInt(props.veracidade) >= 60 ? "text-warning-700" :
+                "text-danger-700"
+              }`}>
+                {props.veracidade}
+              </span>
+            </div>
           </div>
         </div>
 

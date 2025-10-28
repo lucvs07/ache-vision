@@ -2,7 +2,7 @@ import type { Product } from "../types/i-product";
 
 export const mockProducts: Product[] = [
   {
-    id: 1,
+    id: "1",
     data: new Date(),
     tipo: "Frasco",
     aprovado: true,
@@ -12,7 +12,7 @@ export const mockProducts: Product[] = [
     imgNormal: "normal1.png",
   },
   {
-    id: 2,
+    id: "2",
     data: new Date(),
     tipo: "Embalagem",
     aprovado: false,
@@ -22,7 +22,7 @@ export const mockProducts: Product[] = [
     imgNormal: "normal2.png",
   },
   {
-    id: 3,
+    id: "3",
     data: new Date(),
     tipo: "Splitter",
     aprovado: false,
