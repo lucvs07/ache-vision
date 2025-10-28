@@ -436,7 +436,7 @@ const HistoricTable: React.FC = () => {
                     }`}
                   >
                     <td className="px-6 py-4 whitespace-nowrap text-sm font-bold text-orange-700 font-outfit">
-                      #{product.id.toString().padStart(4, "0")}
+                      #{product.id.padStart(4, "0")}
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap text-sm text-black-700 font-medium font-outfit">
                       {new Date(product.data).toLocaleDateString("pt-BR", {

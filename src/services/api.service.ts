@@ -33,7 +33,7 @@ export class ApiService {
     return response.json();
   }
 
-  static async getProductById(id: number): Promise<Product> {
+  static async getProductById(id: string): Promise<Product> {
     const response = await fetch(`${API_BASE_URL}/products/${id}`);
     if (!response.ok) throw new Error("Erro ao buscar produto");
     return response.json();
@@ -50,7 +50,7 @@ export class ApiService {
   }
 
   static async updateProduct(
-    id: number,
+    id: string,
     product: Partial<Product>
   ): Promise<Product> {
     const response = await fetch(`${API_BASE_URL}/update/${id}`, {
@@ -62,7 +62,7 @@ export class ApiService {
     return response.json();
   }
 
-  static async deleteProduct(id: number): Promise<void> {
+  static async deleteProduct(id: string): Promise<void> {
     const response = await fetch(`${API_BASE_URL}/delete/${id}`, {
       method: "DELETE",
     });
