@@ -1,14 +1,23 @@
 import type { Product } from "../types/i-product";
 import type { OEEMetrics, OEEConfig } from "../types/i-oee";
+import { isProductApproved } from "../utils/product-status.helper";
 
 export class OEEService {
   /**
    * Calcula a Qualidade (Quality)
-   * Qualidade = (Produtos Aprovados / Total de Produtos) × 100
+   * Qualidade = (Produtos SEM DEFEITO / Total de Produtos) × 100
+   * 
+   * Baseado no TIPO da embalagem detectado:
+   * - Aprovados: Frasco_Completo, Embalagem_Boa, Blister_Completo
+   * - Defeituosos: Qualquer outro tipo
+   * 
+   * A veracidade/confiança NÃO afeta este cálculo!
+   * Mede a QUALIDADE DA PRODUÇÃO, não da IA.
    */
   static calcularQualidade(products: Product[]): number {
     if (products.length === 0) return 0;
-    const aprovados = products.filter(p => p.status === "aprovado").length;
+    // Conta produtos aprovados baseado no TIPO (não no campo status ou veracidade)
+    const aprovados = products.filter(p => isProductApproved(p.tipo)).length;
     return (aprovados / products.length) * 100;
   }
 
@@ -100,8 +109,9 @@ export class OEEService {
       periodo,
       detalhes: {
         totalAnalises: products.length,
-        aprovados: products.filter(p => p.status === "aprovado").length,
-        rejeitados: products.filter(p => p.status !== "aprovado").length,
+        // Conta produtos aprovados/defeituosos baseado no TIPO
+        aprovados: products.filter(p => isProductApproved(p.tipo)).length,
+        rejeitados: products.filter(p => !isProductApproved(p.tipo)).length,
         analisePorHora: Math.round((products.length / horasOperacao) * 100) / 100,
         horasAtivas: Math.round(horasOperacao * 100) / 100,
         horasPlanejadasTurno: config.horasTurno

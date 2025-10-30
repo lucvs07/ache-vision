@@ -1,16 +1,16 @@
 export interface OEEMetrics {
-  qualidade: number;        // 0-100%
-  performance: number;      // 0-100%
-  disponibilidade: number;  // 0-100%
-  oeeTotal: number;         // 0-100%
+  qualidade: number;        // 0-100% (% de produtos SEM defeito - baseado no tipo da embalagem)
+  performance: number;      // 0-100% (taxa de produção real vs ideal)
+  disponibilidade: number;  // 0-100% (tempo ativo vs planejado)
+  oeeTotal: number;         // 0-100% (qualidade × performance × disponibilidade)
   periodo: {
     inicio: Date;
     fim: Date;
   };
   detalhes: {
     totalAnalises: number;
-    aprovados: number;
-    rejeitados: number;
+    aprovados: number;      // Produtos sem defeito (Frasco_Completo, Embalagem_Boa, Blister_Completo)
+    rejeitados: number;     // Produtos com defeito (qualquer outro tipo)
     analisePorHora: number;
     horasAtivas: number;
     horasPlanejadasTurno: number;

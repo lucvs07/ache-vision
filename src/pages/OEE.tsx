@@ -179,6 +179,9 @@ const OEE: React.FC = () => {
           <p className="oee-subtitle">
             {getPeriodoTexto()} - {OEEService.getClassificacaoOEE(oeeMetrics.oeeTotal)}
           </p>
+          <p className="text-xs text-black-600 mt-2 italic">
+            💡 Mede a eficiência da <strong>linha de produção</strong>. Qualidade baseada no tipo de embalagem detectado (Frasco_Completo, Embalagem_Boa, Blister_Completo = aprovado).
+          </p>
         </div>
         <div className="oee-filters">
           <button
@@ -229,7 +232,7 @@ const OEE: React.FC = () => {
           valor={oeeMetrics.qualidade}
           meta={90}
           cor={corQualidade}
-          descricao="Produtos aprovados vs total"
+          descricao="% de embalagens sem defeito (Frasco_Completo, Embalagem_Boa, Blister_Completo)"
         />
         <OEECard
           titulo="Performance"
@@ -257,13 +260,13 @@ const OEE: React.FC = () => {
               <span className="oee-detail-value">{oeeMetrics.detalhes.totalAnalises}</span>
             </div>
             <div className="oee-detail-item">
-              <span className="oee-detail-label">Aprovados:</span>
+              <span className="oee-detail-label">✓ Sem Defeito:</span>
               <span className="oee-detail-value" style={{ color: '#10b981' }}>
                 {oeeMetrics.detalhes.aprovados}
               </span>
             </div>
             <div className="oee-detail-item">
-              <span className="oee-detail-label">Rejeitados:</span>
+              <span className="oee-detail-label">✗ Com Defeito:</span>
               <span className="oee-detail-value" style={{ color: '#ef4444' }}>
                 {oeeMetrics.detalhes.rejeitados}
               </span>
