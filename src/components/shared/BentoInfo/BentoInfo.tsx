@@ -10,6 +10,7 @@ type BentoInfoProps = {
   iconProps?: IconProps;
   gridColumn?: string;
   gridRow?: string;
+  styleStat?: string;
 };
 
 const BentoInfo: React.FC<BentoInfoProps> = ({
@@ -20,6 +21,7 @@ const BentoInfo: React.FC<BentoInfoProps> = ({
   iconProps,
   gridColumn,
   gridRow,
+  styleStat,
 }) => {
   // Monta as classes de grid do Tailwind
   const gridClasses = [
@@ -37,7 +39,7 @@ const BentoInfo: React.FC<BentoInfoProps> = ({
         <Icon {...iconProps} />
       </div>
       <div className="bento-content">
-        <span className={showPercentage ? "" : "no-percentage"}>{infoValue}</span>
+        <span className={`${showPercentage ? "" : "no-percentage"} ${styleStat ?? ""}`}>{infoValue}</span>
         {showPercentage && (
           <span className="percentage-badge">{percentageValue}%</span>
         )}

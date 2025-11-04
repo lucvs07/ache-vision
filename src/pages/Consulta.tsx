@@ -66,6 +66,17 @@ const Consulta: React.FC = () => {
       console.error("Erro ao realizar o filtro:", error);
     }
   };
+// Retorna a classe de estilo para cada BentoInfo
+const getBentoInfoClass = (type: "aprovados" | "avarias" | "taxa", value: number) => {
+    if (type === "aprovados") return "text-success-700";
+    if (type === "avarias") return "text-danger-700";
+    if (type === "taxa") {
+        if (value < 50) return "text-danger-700";
+        if (value < 80) return "text-warning-700";
+        return "text-success-700";
+    }
+    return "";
+};
 
   return (
     <div className="min-h-screen bg-white-100 p-6 font-outfit">
@@ -196,6 +207,10 @@ const Consulta: React.FC = () => {
                 iconProps={{ size: 40, weight: "fill" } as IconProps}
                 gridColumn="col-start-1 col-end-2"
                 gridRow="row-start-1 row-end-2"
+                styleStat={getBentoInfoClass(
+                  "aprovados",
+                  filteredData.aprovados
+                )}
               />
               <BentoInfo
                 header="Com Avarias"
@@ -204,6 +219,7 @@ const Consulta: React.FC = () => {
                 iconProps={{ size: 40, weight: "fill" } as IconProps}
                 gridColumn="col-start-2 col-end-3"
                 gridRow="row-start-1 row-end-2"
+                styleStat={getBentoInfoClass("avarias", filteredData.avarias)}
               />
               <BentoInfo
                 header="Taxa de Aprovação"
@@ -221,6 +237,7 @@ const Consulta: React.FC = () => {
                 iconProps={{ size: 40, weight: "fill" } as IconProps}
                 gridColumn="col-start-3 col-end-4"
                 gridRow="row-start-1 row-end-2"
+                styleStat={getBentoInfoClass("taxa", filteredData.avarias)}
               />
             </div>
             {filteredData?.produtosFiltrados &&
@@ -284,21 +301,20 @@ const Consulta: React.FC = () => {
                 </div>
               )}
             <div className="overflow-x-auto">
-            
-                  {filteredData.produtosFiltrados?.length === 0 && (
-                    <tr>
-                      <td colSpan={5} className="px-6 py-16 text-center">
-                        <div className="flex flex-col items-center">
-                          <span className="text-orange-400 text-4xl mb-2">
-                            Nenhum produto encontrado
-                          </span>
-                          <span className="text-black-500">
-                            Não há registros para exibir.
-                          </span>
-                        </div>
-                      </td>
-                    </tr>
-                  )}
+              {filteredData.produtosFiltrados?.length === 0 && (
+                <tr>
+                  <td colSpan={5} className="px-6 py-16 text-center">
+                    <div className="flex flex-col items-center">
+                      <span className="text-orange-400 text-4xl mb-2">
+                        Nenhum produto encontrado
+                      </span>
+                      <span className="text-black-500">
+                        Não há registros para exibir.
+                      </span>
+                    </div>
+                  </td>
+                </tr>
+              )}
             </div>
             {/* Modal */}
             {isModalOpen && selectedProduct && (
