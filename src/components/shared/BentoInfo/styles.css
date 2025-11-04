@@ -19,6 +19,10 @@
     @apply font-krona text-2xl;
 }
 
-.bento-content span:last-child {
+.bento-content span.no-percentage {
+    @apply font-krona text-2xl;
+}
+
+.bento-content span.percentage-badge {
     @apply px-4 py-2 bg-white-200 font-bold rounded-sm text-sm;
 }

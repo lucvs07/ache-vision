@@ -8,4 +8,7 @@ export interface Product
     veracidade: string;
     imgLabel: string;
     imgNormal: string;
+    contagem?: string;
+    contem?: number;
+    faltando?: number;
 }

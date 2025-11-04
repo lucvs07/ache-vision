@@ -414,9 +414,17 @@ const HistoricTable: React.FC = () => {
                       })}
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap text-sm text-black-800 font-outfit">
-                      <span className="font-semibold bg-white-200 px-3 py-1 rounded-lg border border-white-300">
-                        {product.tipo}
-                      </span>
+                      <div className="flex items-center gap-2">
+                        <span className="font-semibold bg-white-200 px-3 py-1 rounded-lg border border-white-300">
+                          {product.tipo}
+                        </span>
+                        {product.tipo.toLowerCase() === "blister_incompleto" && product.contem !== undefined && product.faltando !== undefined && (
+                          <div className="bg-warning-200 text-warning-900 px-2.5 py-1 rounded-md text-xs font-bold flex items-center gap-1">
+                            <span>💊</span>
+                            <span>{product.contem}/{(product.contem || 0) + (product.faltando || 0)}</span>
+                          </div>
+                        )}
+                      </div>
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap">
                       {getStatusBadge(product.tipo)}
