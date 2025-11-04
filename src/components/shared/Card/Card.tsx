@@ -33,9 +33,11 @@ interface CardProps extends Product {
   onClick?: () => void;
 }
 
-const Card: React.FC<CardProps> = ({ veracidade, tipo, onClick, ...rest }) => {
+const Card: React.FC<CardProps> = ({ veracidade, tipo, onClick, contem, faltando, ...rest }) => {
   const currentStatus = isProductApproved(tipo) ? "aprovado" : "defeituoso";
   const IconComponent = sealStatus[currentStatus];
+  const isBlisterIncompleto = tipo.toLowerCase() === "blister_incompleto";
+  const totalPilulas = (contem || 0) + (faltando || 0);
   
   return (
     <div className="card">
@@ -55,11 +57,19 @@ const Card: React.FC<CardProps> = ({ veracidade, tipo, onClick, ...rest }) => {
           weight="fill"
           className={themeStatus[currentStatus]}
         />
-        <p
-          className={`card-description font-krona ${themeStatus[currentStatus]}`}
-        >
-          {ApiService.formatLabel(tipo)}
-        </p>
+        <div className="flex items-center gap-2">
+          <p
+            className={`card-description font-krona ${themeStatus[currentStatus]}`}
+          >
+            {ApiService.formatLabel(tipo)}
+          </p>
+          {isBlisterIncompleto && contem !== undefined && faltando !== undefined && (
+            <div className="bg-warning-200 text-warning-900 px-3 py-1 rounded-md text-sm font-bold flex items-center gap-1">
+              <span>💊</span>
+              <span>{contem}/{totalPilulas}</span>
+            </div>
+          )}
+        </div>
         <p className="text-xs text-black-600 mt-1">
           Confiança: <span className="font-bold">{veracidade}</span>
         </p>

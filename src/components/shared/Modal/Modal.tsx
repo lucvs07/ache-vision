@@ -88,18 +88,42 @@ const Modal: React.FC<ModalProps> = ({
           </div>
           <div className="data-content">
             <span>{ApiService.formatDateToBR(props.data)}</span>
-            <div className="flex items-center gap-2 text-sm">
-              <span className="font-semibold text-black-700">Confiança:</span>
-              <span className={`font-bold ${
-                parseInt(props.veracidade) >= 80 ? "text-success-700" :
-                parseInt(props.veracidade) >= 60 ? "text-warning-700" :
-                "text-danger-700"
+            <div className="flex items-center justify-end gap-2 text-base mt-1">
+              <span className="font-semibold text-white-50">Confiança:</span>
+              <span className={`font-bold text-lg ${
+                parseInt(props.veracidade) >= 80 ? "text-success-400" :
+                parseInt(props.veracidade) >= 60 ? "text-warning-400" :
+                "text-danger-400"
               }`}>
                 {props.veracidade}
               </span>
             </div>
           </div>
         </div>
+
+        {props.tipo.toLowerCase() === "blister_incompleto" && props.contem !== undefined && props.faltando !== undefined && (
+          <div className="bg-warning-50 border border-warning-200 rounded-lg p-6 flex flex-col gap-4">
+            <div className="flex items-center gap-2">
+              <span className="text-2xl">💊</span>
+              <h3 className="text-warning-900 font-semibold text-xl">Contagem de Pílulas</h3>
+            </div>
+            <div className="grid grid-cols-2 gap-4">
+              <div className="bg-white-50 rounded-lg p-4 border border-black-200">
+                <span className="text-black-600 text-sm font-medium block mb-2">Presentes</span>
+                <span className="text-success-600 text-5xl font-bold">{props.contem}</span>
+              </div>
+              <div className="bg-white-50 rounded-lg p-4 border border-black-200">
+                <span className="text-black-600 text-sm font-medium block mb-2">Faltando</span>
+                <span className="text-danger-600 text-5xl font-bold">{props.faltando}</span>
+              </div>
+            </div>
+            <div className="bg-white-50 rounded-lg p-3 border border-black-200">
+              <span className="text-black-700 text-sm">
+                <span className="font-semibold">Total esperado:</span> {(props.contem || 0) + (props.faltando || 0)} pílulas
+              </span>
+            </div>
+          </div>
+        )}
 
         <ReactCompareSlider
           itemOne={
