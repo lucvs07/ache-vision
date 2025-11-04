@@ -66,17 +66,20 @@ const Consulta: React.FC = () => {
       console.error("Erro ao realizar o filtro:", error);
     }
   };
-// Retorna a classe de estilo para cada BentoInfo
-const getBentoInfoClass = (type: "aprovados" | "avarias" | "taxa", value: number) => {
+  // Retorna a classe de estilo para cada BentoInfo
+  const getBentoInfoClass = (
+    type: "aprovados" | "avarias" | "taxa",
+    value: number
+  ) => {
     if (type === "aprovados") return "text-success-700";
     if (type === "avarias") return "text-danger-700";
     if (type === "taxa") {
-        if (value < 50) return "text-danger-700";
-        if (value < 80) return "text-warning-700";
-        return "text-success-700";
+      if (value < 50) return "text-danger-700";
+      if (value < 80) return "text-warning-700";
+      return "text-success-700";
     }
     return "";
-};
+  };
 
   return (
     <div className="min-h-screen bg-white-100 p-6 font-outfit">
@@ -199,97 +202,118 @@ const getBentoInfoClass = (type: "aprovados" | "avarias" | "taxa", value: number
                 </span>
               </div>
             </div>
-            
+
             {filteredData?.produtosFiltrados &&
               filteredData.produtosFiltrados.length > 0 && (
-                <><div className="grid grid-cols-3 grid-rows-auto gap-4 w-full h-full p-4">
-                              <BentoInfo
-                                  header="Aprovados"
-                                  infoValue={`${filteredData.aprovados}`}
-                                  icon={ChartScatterIcon}
-                                  iconProps={{ size: 40, weight: "fill" } as IconProps}
-                                  gridColumn="col-start-1 col-end-2"
-                                  gridRow="row-start-1 row-end-2"
-                                  styleStat={getBentoInfoClass(
-                                      "aprovados",
-                                      filteredData.aprovados
-                                  )} />
-                              <BentoInfo
-                                  header="Com Avarias"
-                                  infoValue={`${filteredData.avarias}`}
-                                  icon={ChartScatterIcon}
-                                  iconProps={{ size: 40, weight: "fill" } as IconProps}
-                                  gridColumn="col-start-2 col-end-3"
-                                  gridRow="row-start-1 row-end-2"
-                                  styleStat={getBentoInfoClass("avarias", filteredData.avarias)} />
-                              <BentoInfo
-                                  header="Taxa de Aprovação"
-                                  infoValue={`${filteredData.produtosFiltrados &&
-                                          filteredData.produtosFiltrados.length > 0
-                                          ? (
-                                              (filteredData.aprovados /
-                                                  filteredData.produtosFiltrados.length) *
-                                              100
-                                          ).toFixed(2)
-                                          : "0.00"}%`}
-                                  icon={ChartScatterIcon}
-                                  iconProps={{ size: 40, weight: "fill" } as IconProps}
-                                  gridColumn="col-start-3 col-end-4"
-                                  gridRow="row-start-1 row-end-2"
-                                  styleStat={getBentoInfoClass("taxa", filteredData.avarias)} />
-                          </div><div className="mt-8 p-4">
-                                  <h3 className="text-lg font-semibold mb-2">
-                                      Análise por Hora
-                                  </h3>
-                                  <ResponsiveContainer width="100%" height={250}>
-                                      <LineChart
-                                          data={(() => {
-                                              // Group products by hour and count aprovados/avarias
-                                              const hours = Array.from({ length: 24 }, (_, i) => i);
-                                              const byHour = hours.map((h) => {
-                                                  const produtosHora = filteredData.produtosFiltrados!.filter((p) => {
-                                                      const d = new Date(p.data);
-                                                      return d.getHours() === h;
-                                                  });
-                                                  const aprovados = produtosHora.filter(
-                                                      (p) => getProductStatus(p.tipo) === "aprovado"
-                                                  ).length;
-                                                  const avarias = produtosHora.filter(
-                                                      (p) => getProductStatus(p.tipo) === "defeituoso"
-                                                  ).length;
-                                                  return {
-                                                      hora: h,
-                                                      aprovados,
-                                                      avarias,
-                                                  };
-                                              });
-                                              // Only show hours in selected range
-                                              return byHour.filter(
-                                                  (h) => h.hora >= horaInicio && h.hora <= horaFim
-                                              );
-                                          })()}
-                                          margin={{ top: 10, right: 30, left: 20, bottom: 5 }}
-                                      >
-                                          <CartesianGrid strokeDasharray="3 3" />
-                                          <XAxis dataKey="hora" tickFormatter={(h) => `${h}:00`} />
-                                          <YAxis allowDecimals={false} />
-                                          <Tooltip
-                                              formatter={(v) => v}
-                                              labelFormatter={(h) => `Hora: ${h}:00`} />
-                                          <Legend />
-                                          <Line
-                                              type="monotone"
-                                              dataKey="aprovados"
-                                              stroke="#82ca9d"
-                                              name="Aprovados" />
-                                          <Line
-                                              type="monotone"
-                                              dataKey="avarias"
-                                              stroke="#ff6b6b"
-                                              name="Avarias" />
-                                      </LineChart>
-                                  </ResponsiveContainer>
-                              </div></>
+                <>
+                  <div className="grid grid-cols-3 grid-rows-auto gap-4 w-full h-full p-4">
+                    <BentoInfo
+                      header="Aprovados"
+                      infoValue={`${filteredData.aprovados}`}
+                      icon={ChartScatterIcon}
+                      iconProps={{ size: 40, weight: "fill" } as IconProps}
+                      gridColumn="col-start-1 col-end-2"
+                      gridRow="row-start-1 row-end-2"
+                      styleStat={getBentoInfoClass(
+                        "aprovados",
+                        filteredData.aprovados
+                      )}
+                    />
+                    <BentoInfo
+                      header="Com Avarias"
+                      infoValue={`${filteredData.avarias}`}
+                      icon={ChartScatterIcon}
+                      iconProps={{ size: 40, weight: "fill" } as IconProps}
+                      gridColumn="col-start-2 col-end-3"
+                      gridRow="row-start-1 row-end-2"
+                      styleStat={getBentoInfoClass(
+                        "avarias",
+                        filteredData.avarias
+                      )}
+                    />
+                    <BentoInfo
+                      header="Taxa de Aprovação"
+                      infoValue={`${
+                        filteredData.produtosFiltrados &&
+                        filteredData.produtosFiltrados.length > 0
+                          ? (
+                              (filteredData.aprovados /
+                                filteredData.produtosFiltrados.length) *
+                              100
+                            ).toFixed(2)
+                          : "0.00"
+                      }%`}
+                      icon={ChartScatterIcon}
+                      iconProps={{ size: 40, weight: "fill" } as IconProps}
+                      gridColumn="col-start-3 col-end-4"
+                      gridRow="row-start-1 row-end-2"
+                      styleStat={getBentoInfoClass(
+                        "taxa",
+                        filteredData.avarias
+                      )}
+                    />
+                  </div>
+                  <div className="mt-8 p-4">
+                    <h3 className="text-lg font-semibold mb-2">
+                      Análise por Hora
+                    </h3>
+                    <ResponsiveContainer width="100%" height={250}>
+                      <LineChart
+                        data={(() => {
+                          // Group products by hour and count aprovados/avarias
+                          const hours = Array.from({ length: 24 }, (_, i) => i);
+                          const byHour = hours.map((h) => {
+                            const produtosHora =
+                              filteredData.produtosFiltrados!.filter((p) => {
+                                const d = new Date(p.data);
+                                return d.getHours() === h;
+                              });
+                            const aprovados = produtosHora.filter(
+                              (p) => getProductStatus(p.tipo) === "aprovado"
+                            ).length;
+                            const avarias = produtosHora.filter(
+                              (p) => getProductStatus(p.tipo) === "defeituoso"
+                            ).length;
+                            return {
+                              hora: h,
+                              aprovados,
+                              avarias,
+                            };
+                          });
+                          // Only show hours in selected range
+                          return byHour.filter(
+                            (h) => h.hora >= horaInicio && h.hora <= horaFim
+                          );
+                        })()}
+                        margin={{ top: 10, right: 30, left: 20, bottom: 5 }}
+                      >
+                        <CartesianGrid strokeDasharray="3 3" />
+                        <XAxis
+                          dataKey="hora"
+                          tickFormatter={(h) => `${h}:00`}
+                        />
+                        <YAxis allowDecimals={false} />
+                        <Tooltip
+                          formatter={(v) => v}
+                          labelFormatter={(h) => `Hora: ${h}:00`}
+                        />
+                        <Legend />
+                        <Line
+                          type="monotone"
+                          dataKey="aprovados"
+                          stroke="#82ca9d"
+                          name="Aprovados"
+                        />
+                        <Line
+                          type="monotone"
+                          dataKey="avarias"
+                          stroke="#ff6b6b"
+                          name="Avarias"
+                        />
+                      </LineChart>
+                    </ResponsiveContainer>
+                  </div>
+                </>
               )}
             <div className="flex justify-center items-center min-h-[120px] w-full">
               {filteredData.produtosFiltrados?.length === 0 && (
