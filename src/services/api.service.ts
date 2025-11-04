@@ -121,13 +121,15 @@ static queryIndicatorsByHourAndDay(
 ): { aprovados: number; avarias: number; tipo: string; range: string; dia: string, produtosFiltrados?: Product[] } {
     // Normaliza o dia para comparar apenas ano, mês e dia
     const targetDay = new Date(Date.UTC(day.getUTCFullYear(), day.getUTCMonth(), day.getUTCDate()));
+    const tiposValidos =
+      ProductStatus[tipo as keyof typeof ProductStatus] || [];
 
     const filtered = products.filter((product) => {
         const date = new Date(product.data);
         const productDay = new Date(Date.UTC(date.getUTCFullYear(), date.getUTCMonth(), date.getUTCDate()));
         const hour = date.getUTCHours();
         const isInHourRange = hour >= startHour && hour < endHour;
-        const isTipo = product.tipo === tipo;
+        const isTipo = tiposValidos.includes(product.tipo);
         const isSameDay = productDay.getTime() === targetDay.getTime();
         return isTipo && isInHourRange && isSameDay;
     });
