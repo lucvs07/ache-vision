@@ -237,7 +237,12 @@ const getBentoInfoClass = (type: "aprovados" | "avarias" | "taxa", value: number
                 iconProps={{ size: 40, weight: "fill" } as IconProps}
                 gridColumn="col-start-3 col-end-4"
                 gridRow="row-start-1 row-end-2"
-                styleStat={getBentoInfoClass("taxa", filteredData.avarias)}
+                styleStat={getBentoInfoClass(
+                  "taxa",
+                  filteredData.produtosFiltrados && filteredData.produtosFiltrados.length > 0
+                    ? (filteredData.aprovados / filteredData.produtosFiltrados.length) * 100
+                    : 0
+                )}
               />
             </div>
             {filteredData?.produtosFiltrados &&
