@@ -19,7 +19,7 @@ const getProductStatus = (tipo: string): "aprovado" | "defeituoso" => {
 };
 
 const Consulta: React.FC = () => {
-  const [tipo, setTipo] = useState("");
+  const [tipo, setTipo] = useState("embalagem");
   const [dia, setDia] = useState("");
   const [horaInicio, setHoraInicio] = useState(0);
   const [horaFim, setHoraFim] = useState(23);
@@ -127,6 +127,7 @@ const Consulta: React.FC = () => {
                 className="w-full px-4 py-3 border border-white-300 rounded-lg focus:ring-2 focus:ring-orange-400 focus:border-orange-400 transition-all duration-200 bg-white-50 font-outfit"
                 value={tipo}
                 onChange={(e) => setTipo(e.target.value)}
+                onSelect={(e) => setTipo(e.currentTarget.value)}
                 name="status"
                 title="status"
               >
