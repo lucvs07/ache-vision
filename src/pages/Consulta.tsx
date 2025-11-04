@@ -2,15 +2,16 @@ import React, { useState } from "react";
 import { ApiService } from "../services/api.service";
 import type { Product } from "../types/i-product";
 import Modal from "../components/shared/Modal/Modal";
+import { Calendar } from "lucide-react";
 
 // Determina se o produto está aprovado ou defeituoso com base no tipo
 const isProductApproved = (tipo: string): boolean => {
   const tiposAprovados = [
     "Frasco_Completo",
-    "Embalagem_Boa", 
-    "Blister_Completo"
+    "Embalagem_Boa",
+    "Blister_Completo",
   ];
-  return tiposAprovados.some(t => tipo.toLowerCase() === t.toLowerCase());
+  return tiposAprovados.some((t) => tipo.toLowerCase() === t.toLowerCase());
 };
 
 const getProductStatus = (tipo: string): "aprovado" | "defeituoso" => {
@@ -71,38 +72,69 @@ const Consulta: React.FC = () => {
         </div>
         <div className="bg-white-50 rounded-xl shadow-sm border border-white-200 p-6 mb-6">
           <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
-            <input
-              type="date"
-              value={dia}
-              onChange={(e) => setDia(e.target.value)}
-              className="border border-white-300 rounded-lg p-3 w-full bg-white-50 font-outfit focus:ring-2 focus:ring-orange-400 focus:border-orange-400"
-              placeholder="Dia"
-            />
-            <input
-              type="number"
-              value={horaInicio}
-              onChange={(e) => setHoraInicio(Number(e.target.value))}
-              className="border border-white-300 rounded-lg p-3 w-full bg-white-50 font-outfit focus:ring-2 focus:ring-orange-400 focus:border-orange-400"
-              placeholder="Hora de Início"
-              min={0}
-              max={23}
-            />
-            <input
-              type="number"
-              value={horaFim}
-              onChange={(e) => setHoraFim(Number(e.target.value))}
-              className="border border-white-300 rounded-lg p-3 w-full bg-white-50 font-outfit focus:ring-2 focus:ring-orange-400 focus:border-orange-400"
-              placeholder="Hora de Fim"
-              min={0}
-              max={23}
-            />
-            <input
-              type="text"
-              value={tipo}
-              onChange={(e) => setTipo(e.target.value)}
-              className="border border-white-300 rounded-lg p-3 w-full bg-white-50 font-outfit focus:ring-2 focus:ring-orange-400 focus:border-orange-400"
-              placeholder="Tipo"
-            />
+            <div>
+              <label className="block text-sm font-semibold text-black-700 mb-3 font-outfit">
+                Data
+              </label>
+              <div className="relative">
+                <Calendar className="absolute left-4 top-3.5 w-4 h-4 text-orange-400" />
+                <input
+                  type="date"
+                  title="Filtrar por data"
+                  className="w-full pl-12 pr-4 py-3 border border-white-300 rounded-lg focus:ring-2 focus:ring-orange-400 focus:border-orange-400 transition-all duration-200 bg-white-50 font-outfit"
+                  value={dia}
+                  onChange={(e) => setDia(e.target.value)}
+                />
+              </div>
+            </div>
+            <div>
+              <label className="block text-sm font-semibold text-black-700 mb-3 font-outfit">
+                Hora de Início
+              </label>
+              <div className="relative">
+                <input
+                  type="number"
+                  value={horaInicio}
+                  onChange={(e) => setHoraInicio(Number(e.target.value))}
+                  className="border border-white-300 rounded-lg p-3 w-full bg-white-50 font-outfit focus:ring-2 focus:ring-orange-400 focus:border-orange-400"
+                  placeholder="Hora de Início"
+                  min={0}
+                  max={23}
+                />
+              </div>
+            </div>
+            <div>
+              <label className="block text-sm font-semibold text-black-700 mb-3 font-outfit">
+                Hora de Fim
+              </label>
+              <div>
+                <input
+                  type="number"
+                  value={horaFim}
+                  onChange={(e) => setHoraFim(Number(e.target.value))}
+                  className="border border-white-300 rounded-lg p-3 w-full bg-white-50 font-outfit focus:ring-2 focus:ring-orange-400 focus:border-orange-400"
+                  placeholder="Hora de Fim"
+                  min={0}
+                  max={23}
+                />
+              </div>
+            </div>
+            <div>
+              <label className="block text-sm font-semibold text-black-700 mb-3 font-outfit">
+                Status
+              </label>
+              <select
+                className="w-full px-4 py-3 border border-white-300 rounded-lg focus:ring-2 focus:ring-orange-400 focus:border-orange-400 transition-all duration-200 bg-white-50 font-outfit"
+                value={tipo}
+                onChange={(e) => setTipo(e.target.value)}
+                name="status"
+                title="status"
+              >
+                <option value="embalagem">Embalagem</option>
+                <option value="blister">Blister</option>
+                <option value="frasco">Frasco</option>
+              </select>
+            </div>
           </div>
           <div className="flex items-end mt-4">
             <button
@@ -207,7 +239,9 @@ const Consulta: React.FC = () => {
                               : "bg-danger-100 text-danger-800 border-danger-300"
                           }`}
                         >
-                          {getProductStatus(product.tipo) === "aprovado" ? "✓ Aprovado" : "✗ Defeituoso"}
+                          {getProductStatus(product.tipo) === "aprovado"
+                            ? "✓ Aprovado"
+                            : "✗ Defeituoso"}
                         </span>
                       </td>
                       <td className="px-6 py-4 whitespace-nowrap text-sm text-black-600">

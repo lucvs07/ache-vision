@@ -287,6 +287,8 @@ const HistoricTable: React.FC = () => {
                     className="w-full px-4 py-3 border border-white-300 rounded-lg focus:ring-2 focus:ring-orange-400 focus:border-orange-400 transition-all duration-200 bg-white-50 font-outfit"
                     value={filterStatus}
                     onChange={(e) => setFilterStatus(e.target.value)}
+                    name="status"
+                    title="status"
                   >
                     <option value="">Todos</option>
                     <option value="aprovado">Aprovado</option>
