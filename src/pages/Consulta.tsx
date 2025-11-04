@@ -160,7 +160,7 @@ const Consulta: React.FC = () => {
               <p className="mb-2">
                 Tipo:{" "}
                 <span className="font-semibold text-orange-700">
-                  {filteredData.tipo}
+                  {filteredData.tipo.toUpperCase()}
                 </span>
               </p>
               <p className="mb-2">
