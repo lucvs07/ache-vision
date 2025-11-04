@@ -20,7 +20,7 @@
 }
 
 .bento-content span.no-percentage {
-    @apply font-krona text-2xl;
+    @apply text-4xl font-bold font-krona;
 }
 
 .bento-content span.percentage-badge {

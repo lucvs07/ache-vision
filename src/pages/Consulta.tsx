@@ -2,7 +2,9 @@ import React, { useState } from "react";
 import { ApiService } from "../services/api.service";
 import type { Product } from "../types/i-product";
 import Modal from "../components/shared/Modal/Modal";
-import { Calendar } from "lucide-react";
+import { Calendar, ChartScatterIcon } from "lucide-react";
+import { type IconProps } from "@phosphor-icons/react";
+import BentoInfo from "../components/shared/BentoInfo/BentoInfo";
 
 // Determina se o produto está aprovado ou defeituoso com base no tipo
 const isProductApproved = (tipo: string): boolean => {
@@ -156,7 +158,7 @@ const Consulta: React.FC = () => {
                 Total: {filteredData.produtosFiltrados?.length || 0} registros
               </div>
             </div>
-            <div className="px-6 py-4">
+            <div className="px-6 py-4 ">
               <p className="mb-2">
                 Tipo:{" "}
                 <span className="font-semibold text-orange-700">
@@ -175,19 +177,38 @@ const Consulta: React.FC = () => {
                   {filteredData.dia}
                 </span>
               </p>
-              <p className="mb-2">
-                Aprovados:{" "}
-                <span className="font-semibold text-success-700">
-                  {filteredData.aprovados}
-                </span>
-              </p>
-              <p className="mb-2">
-                Com Avarias:{" "}
-                <span className="font-semibold text-danger-700">
-                  {filteredData.avarias}
-                </span>
-              </p>
             </div>
+            <div className="grid grid-cols-3 grid-rows-auto gap-4 w-full h-full p-4">
+              <BentoInfo
+                header="Aprovados"
+                infoValue={`${filteredData.aprovados}`}
+                icon={ChartScatterIcon}
+                iconProps={{ size: 40, weight: "fill" } as IconProps}
+                gridColumn="col-start-1 col-end-2"
+                gridRow="row-start-1 row-end-2"
+              />
+              <BentoInfo
+                header="Com Avarias"
+                infoValue={`${filteredData.avarias}`}
+                icon={ChartScatterIcon}
+                iconProps={{ size: 40, weight: "fill" } as IconProps}
+                gridColumn="col-start-2 col-end-3"
+                gridRow="row-start-1 row-end-2"
+              />
+              <BentoInfo
+                header="Taxa de Aprovação"
+                infoValue={`${
+                  filteredData.produtosFiltrados && filteredData.produtosFiltrados.length > 0
+                    ? ((filteredData.aprovados / filteredData.produtosFiltrados.length) * 100).toFixed(2)
+                    : "0.00"
+                }%`}
+                icon={ChartScatterIcon}
+                iconProps={{ size: 40, weight: "fill" } as IconProps}
+                gridColumn="col-start-3 col-end-4"
+                gridRow="row-start-1 row-end-2"
+              />
+            </div>
+
             <div className="overflow-x-auto">
               <table className="w-full">
                 <thead className="bg-gradient-to-r from-orange-100 to-sunset-100">
