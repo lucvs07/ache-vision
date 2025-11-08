@@ -28,16 +28,38 @@ const ProductStatus = {
 
 export class ApiService {
   static async getProducts(): Promise<Product[]> {
-    const response = await fetch(`${API_BASE_URL}/all`);
+    // Adiciona timestamp para evitar cache
+    const timestamp = new Date().getTime();
+    const response = await fetch(`${API_BASE_URL}/all?_t=${timestamp}`);
     if (!response.ok) throw new Error("Erro ao buscar produtos");
     const data = await response.json();
     
+    console.log("📥 Total de produtos recebidos:", data.length);
+    console.log("📥 Dados brutos da API (primeiros 3):", data.slice(0, 3).map((p: Product) => ({
+      id: p.id,
+      data: p.data,
+      tipo: p.tipo
+    })));
+    
     // Ordena por data: mais recente primeiro
-    return data.sort((a: Product, b: Product) => {
-      const dateA = new Date(a.data).getTime();
-      const dateB = new Date(b.data).getTime();
-      return dateB - dateA; // Mais recente primeiro
+    const sorted = data.sort((a: Product, b: Product) => {
+      const dateA = typeof a.data === 'string' ? new Date(a.data) : a.data;
+      const dateB = typeof b.data === 'string' ? new Date(b.data) : b.data;
+      
+      const timeA = dateA instanceof Date ? dateA.getTime() : new Date(dateA).getTime();
+      const timeB = dateB instanceof Date ? dateB.getTime() : new Date(dateB).getTime();
+      
+      return timeB - timeA; // Mais recente primeiro
     });
+    
+    console.log("📤 Dados ordenados (primeiros 5):", sorted.slice(0, 5).map((p: Product) => ({
+      id: p.id,
+      data: p.data,
+      tipo: p.tipo,
+      dataFormatada: this.formatDateToBR(p.data)
+    })));
+    
+    return sorted;
   }
 
   static async getProductById(id: string): Promise<Product> {
@@ -77,7 +99,21 @@ export class ApiService {
   }
 
   static formatDateToBR(date: string | Date): string {
-    const dateObj = date instanceof Date ? date : new Date(date);
+    // Garante que temos um objeto Date válido
+    let dateObj: Date;
+    
+    if (date instanceof Date) {
+      dateObj = date;
+    } else {
+      // Se for string, cria um novo Date
+      dateObj = new Date(date);
+    }
+    
+    // Verifica se a data é válida
+    if (isNaN(dateObj.getTime())) {
+      return "Data inválida";
+    }
+    
     return dateObj.toLocaleString("pt-BR", {
       day: "2-digit",
       month: "2-digit",
@@ -86,7 +122,6 @@ export class ApiService {
       minute: "2-digit",
       second: "2-digit",
       hour12: false,
-      timeZone: "UTC",
     });
   }
   static formatLabel(label: string): string {
