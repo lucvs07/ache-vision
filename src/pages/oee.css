@@ -192,6 +192,10 @@
     font-size: 1.5rem;
   }
 
+  .oee-subtitle {
+    font-size: 0.875rem;
+  }
+
   .oee-header {
     flex-direction: column;
     align-items: flex-start;
@@ -199,22 +203,54 @@
 
   .oee-filters {
     width: 100%;
+    flex-direction: column;
+    gap: 0.5rem;
   }
 
   .oee-filter-btn {
     flex: 1;
     padding: 0.75rem;
+    width: 100%;
   }
 
   .oee-pillars-grid {
     grid-template-columns: 1fr;
+    gap: 1rem;
   }
 
   .oee-details-grid {
     grid-template-columns: 1fr;
+    gap: 1rem;
   }
 
   .oee-gauge-card {
     padding: 1.5rem;
+  }
+  
+  .oee-detail-card {
+    padding: 1rem;
+  }
+  
+  .oee-gauge-classification {
+    font-size: 1rem;
+  }
+}
+
+/* Tablets */
+@media (min-width: 769px) and (max-width: 1024px) {
+  .oee-container {
+    padding: 1.5rem;
+  }
+
+  .oee-title {
+    font-size: 1.75rem;
+  }
+
+  .oee-pillars-grid {
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  }
+
+  .oee-details-grid {
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
   }
 }

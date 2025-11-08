@@ -143,3 +143,49 @@
 .dot:hover:not(:disabled):not(.active) {
     @apply bg-orange-300 scale-125;
 }
+
+/* Responsividade para dispositivos móveis */
+@media (max-width: 768px) {
+    .embalagem-card {
+        @apply p-4 gap-3;
+    }
+    
+    .embalagem-header {
+        @apply flex-col items-start gap-2;
+    }
+    
+    .carousel-controls {
+        @apply w-full justify-between;
+    }
+    
+    .carousel-btn {
+        @apply w-10 h-10;
+    }
+    
+    .stat-label {
+        @apply text-sm;
+    }
+    
+    .stat-value {
+        @apply text-2xl;
+    }
+    
+    .embalagem-content {
+        @apply gap-4;
+    }
+    
+    .percentage-text {
+        @apply text-xs;
+    }
+}
+
+/* Responsividade para tablets */
+@media (min-width: 769px) and (max-width: 1024px) {
+    .embalagem-card {
+        @apply p-5 gap-3;
+    }
+    
+    .stat-value {
+        @apply text-3xl;
+    }
+}

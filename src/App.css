@@ -1,0 +1,24 @@
+/* Layout principal com responsividade */
+main {
+  min-height: 100vh;
+}
+
+/* Responsividade global para celulares */
+@media (max-width: 768px) {
+  /* Ajustes para overflow */
+  body {
+    overflow-x: hidden;
+  }
+  
+  /* Ajustes de tamanho de fonte global */
+  html {
+    font-size: 14px;
+  }
+}
+
+/* Responsividade para tablets */
+@media (min-width: 769px) and (max-width: 1024px) {
+  html {
+    font-size: 15px;
+  }
+}

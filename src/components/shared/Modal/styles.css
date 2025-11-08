@@ -12,5 +12,35 @@
     @apply font-krona text-xl w-full;
 }
 .data-content {
-    @apply text-white-50 font-outfit text-xl w-full text-end    ;
+    @apply text-white-50 font-outfit text-xl w-full text-end;
+}
+
+/* Responsividade para dispositivos móveis */
+@media (max-width: 768px) {
+    .header-modal {
+        @apply p-3;
+    }
+    
+    .label-content {
+        @apply flex-col items-start gap-2 p-3;
+    }
+    
+    .label-content span {
+        @apply text-base;
+    }
+    
+    .data-content {
+        @apply text-base text-start;
+    }
+}
+
+/* Responsividade para tablets */
+@media (min-width: 769px) and (max-width: 1024px) {
+    .label-content span {
+        @apply text-lg;
+    }
+    
+    .data-content {
+        @apply text-lg;
+    }
 }

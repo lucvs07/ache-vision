@@ -166,3 +166,20 @@
 :root {
     @apply bg-white-100;
 }
+
+/* Responsividade Global */
+@media (max-width: 768px) {
+    html {
+        font-size: 14px;
+    }
+    
+    body {
+        overflow-x: hidden;
+    }
+}
+
+@media (min-width: 769px) and (max-width: 1024px) {
+    html {
+        font-size: 15px;
+    }
+}

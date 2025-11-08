@@ -146,23 +146,23 @@ const Hero: React.FC = () => {
 
   return (
     <section className="section-hero items-center justify-center">
-      <div className="grid grid-cols-3 grid-rows-auto gap-4 w-full h-full">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 grid-rows-auto gap-2 md:gap-3 lg:gap-4 w-full h-full">
         <EmbalagemCard
           stats={stats}
-          className="col-start-1 col-end-2 row-start-1 row-end-4 w-full h-full min-h-0 min-w-0 flex flex-col"
+          className="col-span-1 md:col-span-2 lg:col-span-1 lg:row-span-3 w-full h-full min-h-0 min-w-0 flex flex-col"
         />
         <BentoInfo
           {...BentoInfoProps}
-          gridColumn="col-start-2 col-end-3"
-          gridRow="row-start-1 row-end-2"
+          gridColumn="col-span-1"
+          gridRow="row-span-1"
         />
         <BentoInfo
           header="Taxa de aprovação"
           infoValue={`${approvalRate}%`}
           icon={ChartScatterIcon}
           iconProps={{ size: 40, weight: "fill" } as IconProps}
-          gridColumn="col-start-3 col-end-4"
-          gridRow="row-start-1 row-end-2"
+          gridColumn="col-span-1"
+          gridRow="row-span-1"
         />
         <BentoInfo
           header="Análises Diárias"
@@ -188,8 +188,8 @@ const Hero: React.FC = () => {
           })()}
           icon={ChartScatterIcon}
           iconProps={{ size: 40, weight: "fill" } as IconProps}
-          gridColumn="col-start-2 col-end-3"
-          gridRow="row-start-2 row-end-3"
+          gridColumn="col-span-1"
+          gridRow="row-span-1"
         />
         <BentoInfo
           header="Análises Mensais"
@@ -217,8 +217,8 @@ const Hero: React.FC = () => {
           })()}
           icon={ChartScatterIcon}
           iconProps={{ size: 40, weight: "fill" } as IconProps}
-          gridColumn="col-start-3 col-end-4"
-          gridRow="row-start-2 row-end-3"
+          gridColumn="col-span-1"
+          gridRow="row-span-1"
         />
       </div>
     </section>
