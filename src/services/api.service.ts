@@ -76,7 +76,7 @@ export class ApiService {
     if (!response.ok) throw new Error("Erro ao deletar produto");
   }
 
-  static formatDateToBR(date: Date): string {
+  static formatDateToBR(date: string | Date): string {
     const dateObj = date instanceof Date ? date : new Date(date);
     return dateObj.toLocaleString("pt-BR", {
       day: "2-digit",
