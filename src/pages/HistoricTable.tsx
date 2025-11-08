@@ -11,6 +11,21 @@ import {
   Download,
 } from "lucide-react";
 
+// Determina se o produto está aprovado ou defeituoso com base no tipo
+const isProductApproved = (tipo: string): boolean => {
+  const tiposAprovados = [
+    "Frasco_Completo",
+    "Embalagem_Boa", 
+    "Blister_Completo"
+  ];
+  return tiposAprovados.some(t => tipo.toLowerCase() === t.toLowerCase());
+};
+
+// Determina o status visual baseado no tipo do produto
+const getProductStatus = (tipo: string): "aprovado" | "defeituoso" => {
+  return isProductApproved(tipo) ? "aprovado" : "defeituoso";
+};
+
 const HistoricTable: React.FC = () => {
   const [products, setProducts] = useState<Product[]>([]);
   const [filterTipo, setFilterTipo] = useState("");
@@ -82,21 +97,6 @@ const HistoricTable: React.FC = () => {
     setFilterStatus("");
     setFilterVeracidadeMin(0);
     setFilterVeracidadeMax(100);
-  };
-
-  // Determina se o produto está aprovado ou defeituoso com base no tipo
-  const isProductApproved = (tipo: string): boolean => {
-    const tiposAprovados = [
-      "Frasco_Completo",
-      "Embalagem_Boa", 
-      "Blister_Completo"
-    ];
-    return tiposAprovados.some(t => tipo.toLowerCase() === t.toLowerCase());
-  };
-
-  // Determina o status visual baseado no tipo do produto
-  const getProductStatus = (tipo: string): "aprovado" | "defeituoso" => {
-    return isProductApproved(tipo) ? "aprovado" : "defeituoso";
   };
 
   const getStatusBadge = (tipo: string) => {
