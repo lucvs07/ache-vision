@@ -85,7 +85,10 @@ const Hero: React.FC = () => {
   // contar ocorrências por dia
   const counts = labels.map(() => 0);
   products.forEach((p) => {
-    const day = new Date(p.data).toISOString().split("T")[0];
+    if (!p.data) return; // Ignora produtos sem data
+    const date = new Date(p.data);
+    if (isNaN(date.getTime())) return; // Ignora datas inválidas
+    const day = date.toISOString().split("T")[0];
     const idx = labels.indexOf(day);
     if (idx >= 0) counts[idx] += 1;
   });
