@@ -27,11 +27,11 @@ const HistoricTable: React.FC = () => {
   useEffect(() => {
     ApiService.getProducts()
       .then((data) => {
-        // Ordena por data: mais recente primeiro
-        const sorted = data.sort((a, b) => 
-          new Date(b.data).getTime() - new Date(a.data).getTime()
-        );
-        setProducts(sorted);
+        // Os dados já vêm ordenados do service (mais recente primeiro)
+        console.log("Dados recebidos na tabela:", data.length);
+        console.log("Primeiro produto (mais recente):", data[0]?.data);
+        console.log("Último produto (mais antigo):", data[data.length - 1]?.data);
+        setProducts(data);
       })
       .catch(console.error);
   }, []);

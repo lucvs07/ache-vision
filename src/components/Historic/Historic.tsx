@@ -18,6 +18,8 @@ const Historic: React.FC = () => {
     ApiService.getProducts()
       .then((products: Product[]) => {
         console.log("Produtos retornados da API:", products);
+        console.log("Primeiro produto (mais recente):", products[0]?.data);
+        console.log("Último produto (mais antigo):", products[products.length - 1]?.data);
         setProducts(products);
       })
       .catch((err) => {
@@ -49,10 +51,6 @@ const Historic: React.FC = () => {
       </div>
       <div className="cards-container">
         {(productsList ?? [])
-          .slice()
-          .sort(
-            (a, b) => new Date(b.data).getTime() - new Date(a.data).getTime()
-          )
           .slice(0, 5)
           .map((product) => (
             <Card

@@ -30,7 +30,14 @@ export class ApiService {
   static async getProducts(): Promise<Product[]> {
     const response = await fetch(`${API_BASE_URL}/all`);
     if (!response.ok) throw new Error("Erro ao buscar produtos");
-    return response.json();
+    const data = await response.json();
+    
+    // Ordena por data: mais recente primeiro
+    return data.sort((a: Product, b: Product) => {
+      const dateA = new Date(a.data).getTime();
+      const dateB = new Date(b.data).getTime();
+      return dateB - dateA; // Mais recente primeiro
+    });
   }
 
   static async getProductById(id: string): Promise<Product> {

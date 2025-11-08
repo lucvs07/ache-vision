@@ -1,7 +1,7 @@
 export interface Product
 {
     id : string;
-    data: Date;
+    data: string | Date; // Aceita tanto string quanto Date
     tipo: string;
     aprovado: boolean;
     status: string;
