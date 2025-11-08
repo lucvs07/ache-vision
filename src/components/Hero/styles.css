@@ -19,3 +19,41 @@
 .chart-area {
     @apply col-start-2 col-end-4 row-start-2 row-end-4 w-full h-full bg-[#fffdfa] rounded-lg shadow p-6 flex flex-col min-w-0 min-h-0;
 }
+
+/* Responsividade para dispositivos móveis */
+@media (max-width: 768px) {
+    .section-hero {
+        @apply mx-2 mb-2 p-2 gap-2;
+    }
+    
+    .bento-grid {
+        @apply grid-cols-1 gap-2;
+    }
+    
+    .usercard-area {
+        @apply col-start-1 col-end-2 row-start-1 row-end-2;
+    }
+    
+    .chart-area {
+        @apply col-start-1 col-end-2 row-start-2 row-end-3 p-4;
+    }
+}
+
+/* Responsividade para tablets */
+@media (min-width: 769px) and (max-width: 1024px) {
+    .section-hero {
+        @apply mx-3 mb-3 p-3 gap-3;
+    }
+    
+    .bento-grid {
+        @apply grid-cols-2 gap-3;
+    }
+    
+    .usercard-area {
+        @apply col-start-1 col-end-3 row-start-1 row-end-2;
+    }
+    
+    .chart-area {
+        @apply col-start-1 col-end-3 row-start-2 row-end-3 p-5;
+    }
+}

@@ -2,11 +2,11 @@
 
 
 .sidebar-container {
-    @apply w-screen bg-white-50 flex flex-row gap-4 p-4;
+    @apply w-screen bg-white-50 flex flex-row gap-4 p-4 overflow-x-auto;
 }
 
 .sidebar-icon {
-    @apply flex flex-row items-center gap-1 cursor-pointer;
+    @apply flex flex-row items-center gap-1 cursor-pointer whitespace-nowrap;
 }
 
 .icon {
@@ -15,4 +15,34 @@
 
 .icon:hover {
     @apply animate-scale;
+}
+
+/* Responsividade para dispositivos móveis */
+@media (max-width: 768px) {
+    .sidebar-container {
+        @apply gap-2 p-2 justify-start;
+    }
+    
+    .sidebar-icon {
+        @apply flex-col gap-1 text-center min-w-[60px];
+    }
+    
+    .sidebar-icon span {
+        @apply text-xs;
+    }
+    
+    .icon {
+        @apply text-base;
+    }
+}
+
+/* Responsividade para tablets */
+@media (min-width: 769px) and (max-width: 1024px) {
+    .sidebar-container {
+        @apply gap-3 p-3;
+    }
+    
+    .sidebar-icon span {
+        @apply text-sm;
+    }
 }

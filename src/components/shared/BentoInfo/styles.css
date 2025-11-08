@@ -26,3 +26,49 @@
 .bento-content span.percentage-badge {
     @apply px-4 py-2 bg-white-200 font-bold rounded-sm text-sm;
 }
+
+/* Responsividade para dispositivos móveis */
+@media (max-width: 768px) {
+    .bento-box {
+        @apply p-4 gap-2;
+    }
+    
+    .bento-header span {
+        @apply text-lg;
+    }
+    
+    .bento-content {
+        @apply gap-2 flex-col items-start;
+    }
+    
+    .bento-content span:first-child {
+        @apply text-xl;
+    }
+    
+    .bento-content span.no-percentage {
+        @apply text-2xl;
+    }
+    
+    .bento-content span.percentage-badge {
+        @apply px-2 py-1 text-xs;
+    }
+}
+
+/* Responsividade para tablets */
+@media (min-width: 769px) and (max-width: 1024px) {
+    .bento-box {
+        @apply p-6 gap-3;
+    }
+    
+    .bento-header span {
+        @apply text-xl;
+    }
+    
+    .bento-content span:first-child {
+        @apply text-xl;
+    }
+    
+    .bento-content span.no-percentage {
+        @apply text-3xl;
+    }
+}

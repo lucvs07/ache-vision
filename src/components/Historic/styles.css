@@ -9,3 +9,29 @@
 .cards-container{
     @apply flex justify-start items-center gap-4 overflow-x-auto;
 }
+
+/* Responsividade para dispositivos móveis */
+@media (max-width: 768px) {
+    .section-historic {
+        @apply mx-2 p-2 gap-2;
+    }
+    
+    .section-header {
+        @apply flex-col items-start gap-2 p-1;
+    }
+    
+    .cards-container {
+        @apply gap-2 pb-2;
+    }
+}
+
+/* Responsividade para tablets */
+@media (min-width: 769px) and (max-width: 1024px) {
+    .section-historic {
+        @apply mx-3 p-3 gap-3;
+    }
+    
+    .cards-container {
+        @apply gap-3;
+    }
+}

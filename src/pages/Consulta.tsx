@@ -82,22 +82,22 @@ const Consulta: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen bg-white-100 p-6 font-outfit">
+    <div className="min-h-screen bg-white-100 p-3 md:p-6 font-outfit">
       <div className="max-w-7xl mx-auto">
-        <div className="mb-8">
-          <div className="flex justify-between items-center mb-6">
+        <div className="mb-6 md:mb-8">
+          <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-4 md:mb-6 gap-3">
             <div>
-              <h1 className="text-3xl font-krona text-black-800 mb-2">
+              <h1 className="text-2xl md:text-3xl font-krona text-black-800 mb-2">
                 Consulta
               </h1>
-              <p className="text-black-600 font-outfit">
+              <p className="text-sm md:text-base text-black-600 font-outfit">
                 Filtre e visualize os registros por dia, hora e tipo
               </p>
             </div>
           </div>
         </div>
-        <div className="bg-white-50 rounded-xl shadow-sm border border-white-200 p-6 mb-6">
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+        <div className="bg-white-50 rounded-xl shadow-sm border border-white-200 p-4 md:p-6 mb-6">
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-3 md:gap-4">
             <div>
               <label className="block text-sm font-semibold text-black-700 mb-3 font-outfit">
                 Data
@@ -107,7 +107,7 @@ const Consulta: React.FC = () => {
                 <input
                   type="date"
                   title="Filtrar por data"
-                  className="w-full pl-12 pr-4 py-3 border border-white-300 rounded-lg focus:ring-2 focus:ring-orange-400 focus:border-orange-400 transition-all duration-200 bg-white-50 font-outfit"
+                  className="w-full pl-12 pr-4 py-3 border border-white-300 rounded-lg focus:ring-2 focus:ring-orange-400 focus:border-orange-400 transition-all duration-200 bg-white-50 font-outfit text-sm md:text-base"
                   value={dia}
                   onChange={(e) => setDia(e.target.value)}
                 />
@@ -122,7 +122,7 @@ const Consulta: React.FC = () => {
                   type="number"
                   value={horaInicio}
                   onChange={(e) => setHoraInicio(Number(e.target.value))}
-                  className="border border-white-300 rounded-lg p-3 w-full bg-white-50 font-outfit focus:ring-2 focus:ring-orange-400 focus:border-orange-400"
+                  className="border border-white-300 rounded-lg p-3 w-full bg-white-50 font-outfit focus:ring-2 focus:ring-orange-400 focus:border-orange-400 text-sm md:text-base"
                   placeholder="Hora de Início"
                   min={0}
                   max={23}
@@ -138,7 +138,7 @@ const Consulta: React.FC = () => {
                   type="number"
                   value={horaFim}
                   onChange={(e) => setHoraFim(Number(e.target.value))}
-                  className="border border-white-300 rounded-lg p-3 w-full bg-white-50 font-outfit focus:ring-2 focus:ring-orange-400 focus:border-orange-400"
+                  className="border border-white-300 rounded-lg p-3 w-full bg-white-50 font-outfit focus:ring-2 focus:ring-orange-400 focus:border-orange-400 text-sm md:text-base"
                   placeholder="Hora de Fim"
                   min={0}
                   max={23}
@@ -150,7 +150,7 @@ const Consulta: React.FC = () => {
                 Status
               </label>
               <select
-                className="w-full px-4 py-3 border border-white-300 rounded-lg focus:ring-2 focus:ring-orange-400 focus:border-orange-400 transition-all duration-200 bg-white-50 font-outfit"
+                className="w-full px-4 py-3 border border-white-300 rounded-lg focus:ring-2 focus:ring-orange-400 focus:border-orange-400 transition-all duration-200 bg-white-50 font-outfit text-sm md:text-base"
                 value={tipo}
                 onChange={(e) => setTipo(e.target.value)}
                 onSelect={(e) => setTipo(e.currentTarget.value)}
@@ -166,7 +166,7 @@ const Consulta: React.FC = () => {
           <div className="flex items-end mt-4">
             <button
               onClick={handleFilter}
-              className="px-4 py-3 bg-gradient-to-r from-orange-500 to-sunset-500 text-white-50 rounded-lg hover:from-orange-600 hover:to-sunset-600 transition-all duration-200 flex items-center shadow-md font-medium"
+              className="w-full md:w-auto px-4 py-3 bg-gradient-to-r from-orange-500 to-sunset-500 text-white-50 rounded-lg hover:from-orange-600 hover:to-sunset-600 transition-all duration-200 flex items-center justify-center shadow-md font-medium"
             >
               Filtrar
             </button>
@@ -174,30 +174,30 @@ const Consulta: React.FC = () => {
         </div>
         {filteredData && (
           <div className="bg-white-50 rounded-xl shadow-lg border border-white-200 overflow-hidden mt-6">
-            <div className="px-6 py-5 border-b border-white-200 bg-gradient-to-r from-orange-50 to-sunset-50 flex justify-between items-center">
-              <h2 className="text-xl font-semibold text-black-800 font-krona">
+            <div className="px-4 md:px-6 py-4 md:py-5 border-b border-white-200 bg-gradient-to-r from-orange-50 to-sunset-50 flex flex-col md:flex-row justify-between items-start md:items-center gap-3">
+              <h2 className="text-lg md:text-xl font-semibold text-black-800 font-krona">
                 Resultados
               </h2>
-              <div className="text-sm text-black-600 bg-white-50 px-3 py-1 rounded-full border border-orange-200">
+              <div className="text-xs md:text-sm text-black-600 bg-white-50 px-3 py-1 rounded-full border border-orange-200">
                 Total: {filteredData.produtosFiltrados?.length || 0} registros
               </div>
             </div>
-            <div className="px-6 py-4 flex flex-wrap gap-6 items-center">
+            <div className="px-4 md:px-6 py-4 flex flex-wrap gap-3 md:gap-6 items-center text-sm md:text-base">
               <div className="flex items-center gap-2">
                 <span className="text-black-600">Tipo:</span>
-                <span className="font-semibold text-orange-700 uppercase bg-orange-50 px-3 py-1 rounded-full shadow-sm">
+                <span className="font-semibold text-orange-700 uppercase bg-orange-50 px-3 py-1 rounded-full shadow-sm text-xs md:text-sm">
                   {filteredData.tipo}
                 </span>
               </div>
               <div className="flex items-center gap-2">
                 <span className="text-black-600">Intervalo:</span>
-                <span className="font-semibold text-orange-700 bg-orange-50 px-3 py-1 rounded-full shadow-sm">
+                <span className="font-semibold text-orange-700 bg-orange-50 px-3 py-1 rounded-full shadow-sm text-xs md:text-sm">
                   {filteredData.range}
                 </span>
               </div>
               <div className="flex items-center gap-2">
                 <span className="text-black-600">Dia:</span>
-                <span className="font-semibold text-orange-700 bg-orange-50 px-3 py-1 rounded-full shadow-sm">
+                <span className="font-semibold text-orange-700 bg-orange-50 px-3 py-1 rounded-full shadow-sm text-xs md:text-sm">
                   {filteredData.dia}
                 </span>
               </div>
@@ -206,14 +206,14 @@ const Consulta: React.FC = () => {
             {filteredData?.produtosFiltrados &&
               filteredData.produtosFiltrados.length > 0 && (
                 <>
-                  <div className="grid grid-cols-3 grid-rows-auto gap-4 w-full h-full p-4">
+                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3 md:gap-4 w-full p-3 md:p-4">
                     <BentoInfo
                       header="Aprovados"
                       infoValue={`${filteredData.aprovados}`}
                       icon={ChartScatterIcon}
                       iconProps={{ size: 40, weight: "fill" } as IconProps}
-                      gridColumn="col-start-1 col-end-2"
-                      gridRow="row-start-1 row-end-2"
+                      gridColumn="col-span-1"
+                      gridRow="row-span-1"
                       styleStat={getBentoInfoClass(
                         "aprovados",
                         filteredData.aprovados
@@ -224,8 +224,8 @@ const Consulta: React.FC = () => {
                       infoValue={`${filteredData.avarias}`}
                       icon={ChartScatterIcon}
                       iconProps={{ size: 40, weight: "fill" } as IconProps}
-                      gridColumn="col-start-2 col-end-3"
-                      gridRow="row-start-1 row-end-2"
+                      gridColumn="col-span-1"
+                      gridRow="row-span-1"
                       styleStat={getBentoInfoClass(
                         "avarias",
                         filteredData.avarias
@@ -245,16 +245,16 @@ const Consulta: React.FC = () => {
                       }%`}
                       icon={ChartScatterIcon}
                       iconProps={{ size: 40, weight: "fill" } as IconProps}
-                      gridColumn="col-start-3 col-end-4"
-                      gridRow="row-start-1 row-end-2"
+                      gridColumn="col-span-1"
+                      gridRow="row-span-1"
                       styleStat={getBentoInfoClass(
                         "taxa",
                         filteredData.avarias
                       )}
                     />
                   </div>
-                  <div className="mt-8 p-4">
-                    <h3 className="text-lg font-semibold mb-2">
+                  <div className="mt-6 md:mt-8 p-3 md:p-4">
+                    <h3 className="text-base md:text-lg font-semibold mb-2">
                       Análise por Hora
                     </h3>
                     <ResponsiveContainer width="100%" height={250}>

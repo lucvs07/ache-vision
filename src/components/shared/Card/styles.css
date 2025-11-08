@@ -31,3 +31,37 @@
 .icon-info:hover {
     @apply animate-scale;
 }
+
+/* Responsividade para dispositivos móveis */
+@media (max-width: 768px) {
+    .card {
+        @apply min-w-[200px] max-w-[280px];
+    }
+    
+    .card-header {
+        @apply p-3;
+    }
+    
+    .card-header span {
+        @apply text-[0.65rem];
+    }
+    
+    .card-content {
+        @apply p-4 gap-1.5;
+    }
+    
+    .card-footer {
+        @apply p-3;
+    }
+}
+
+/* Responsividade para tablets */
+@media (min-width: 769px) and (max-width: 1024px) {
+    .card {
+        @apply min-w-[240px];
+    }
+    
+    .card-content {
+        @apply p-6;
+    }
+}
